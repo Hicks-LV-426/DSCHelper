@@ -1,0 +1,30 @@
+.app-body
+{
+  position:absolute; 
+  top:32px;
+  left:50px;
+  right:50px;
+  min-height: 600px;
+  background: #252526;
+}
+.app-header
+{
+  position:absolute;
+  left:0;
+  right:0;
+  top:0;
+  height: 67px;
+  overflow: hidden;
+  background-color: #38383d;
+  z-index:99;
+}
+.app-content
+{
+  position:absolute;
+  top:67px;
+  left:0;
+  right: 0;
+  bottom:0px;
+  overflow: hidden;
+  z-index:99;
+}

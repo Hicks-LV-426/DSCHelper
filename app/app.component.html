@@ -1,0 +1,30 @@
+<div class="app-body border-full">
+  <div class="app-header border-bottom">
+    <app-header></app-header>
+  </div>
+  <div class="app-content">
+    <div class="column">
+      <app-menu [root]="'root'"></app-menu>
+    </div>
+    <div class="column">
+      <div *ngIf="getRegionn() == 'WELCOME'">
+        WELCOME
+      </div>
+      <div *ngIf="getRegionn() == 'DSCC'">
+        DSC Collection (new or existing)
+      </div>
+      <div *ngIf="getRegionn() == 'HELP'">
+        Help me
+      </div>
+      <div *ngIf="getRegionn() == 'ABOUT'">
+        About
+      </div>
+      <div *ngIf="getRegionn() == 'DONATE'">
+        Donate
+      </div>
+      <div *ngIf="getRegionn() == '404'">
+        404 Page not found
+      </div>
+    </div>
+  </div>
+</div>

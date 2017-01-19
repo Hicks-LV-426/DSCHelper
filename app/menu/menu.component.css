@@ -1,0 +1,23 @@
+.menu-body
+{
+  position:relative;
+  height:100%;
+  font-size:24px;
+  /*top:0;
+  left:0;
+  bottom:0px;
+  z-index:109;
+  */
+}
+.menu-body li:hover
+{
+  background: #3f3f46;
+}
+.menu-item
+{
+  padding:15px 25px 20px 25px;
+}
+/*.menu-item:hover
+{
+  background: #3f3f46;
+}*/
