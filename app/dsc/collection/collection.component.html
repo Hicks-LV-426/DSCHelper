@@ -8,12 +8,20 @@
   </div>
   <div class="dsc-child dsc-menu column border-right" *ngIf="subItemsVisible">
     <ul>
-      <li *ngFor="let item of subItems" class="noselect pointer">
+      <li *ngFor="let item of subItems" class="noselect pointer" (click)="subItemClicked(item)">
         {{item}}
       </li>
     </ul>
   </div>
   <div class="dsc-child dsc-content column">
-      <dsc-parameter></dsc-parameter>
+    <div [ngSwitch]="getContentName()">
+      <div *ngSwitchCase="'dsc'">
+        <dsc-script [collection]="collection"></dsc-script>
+      </div>
+      <div *ngSwitchCase="'new-parameter'">
+        <dsc-parameter (save)="onParameterSave($event)" (cancel)="onParameterCancel($event)"></dsc-parameter>
+      </div>
+      <!--<div *ngSwitchDefault>output2</div>#}-->
+    </div>
   </div>
 </section >

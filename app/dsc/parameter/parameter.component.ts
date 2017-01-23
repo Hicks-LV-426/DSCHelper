@@ -15,7 +15,7 @@ export class ParameterComponent implements OnInit {
   paramType : string = this.valueTypes[0];
   paramValue : string;
   errorMessage : string = "";
-  parameter : Parameter;
+  parameter : Parameter = new Parameter();
 
   @Output() save : EventEmitter<Parameter> = new EventEmitter<Parameter>();
   @Output() cancel : EventEmitter<any> = new EventEmitter<any>();
@@ -29,8 +29,11 @@ export class ParameterComponent implements OnInit {
   {
     if(!this.validate())
       return;
-    
-    this.save.emit({name: this.paramName, type: this.paramType, value: this.paramValue});
+    this.parameter.name = this.paramName;
+    this.parameter.type = this.paramType
+    this.parameter.value = this.paramValue;
+
+    this.save.emit(this.parameter);
   }
   cancelClicked()
   {
@@ -46,6 +49,7 @@ export class ParameterComponent implements OnInit {
       this.paramType = this.valueTypes[0];
       this.paramValue = '';
     }
+    this.errorMessage = '';
     this.cancel.emit();
   }
 
