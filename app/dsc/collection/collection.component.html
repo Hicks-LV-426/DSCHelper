@@ -1,0 +1,19 @@
+<section class="dsc-collection-main">
+  <div class="dsc-child dsc-menu column border-right">
+    <ul>
+      <li *ngFor="let item of menuItems" class="noselect pointer" (click)="itemClicked(item)">
+        {{item}}
+      </li>
+    </ul>
+  </div>
+  <div class="dsc-child dsc-menu column border-right" *ngIf="subItemsVisible">
+    <ul>
+      <li *ngFor="let item of subItems" class="noselect pointer">
+        {{item}}
+      </li>
+    </ul>
+  </div>
+  <div class="dsc-child dsc-content column">
+      <dsc-parameter></dsc-parameter>
+  </div>
+</section >

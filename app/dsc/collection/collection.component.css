@@ -1,0 +1,20 @@
+.dsc-collection-main
+{
+  height:753px;
+}
+.dsc-menu
+{
+  font-size:22px;
+}
+.dsc-menu li
+{
+  padding:10px;
+}
+.dsc-menu li:hover
+{
+  background: #3f3f46;
+}
+.dsc-content
+{
+  padding:10px;
+}

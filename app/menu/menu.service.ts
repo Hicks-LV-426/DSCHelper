@@ -30,8 +30,13 @@ export class MenuService
       new MenuItem('Help', [], null),
       new MenuItem('About', [], null),
       new MenuItem('Donate', [], null)
-      ])
+      ]),
     /**********/
+    new MenuItem('dsc', [], [
+      new MenuItem('Add', [], null),
+      new MenuItem('Parameters', [], null),
+      new MenuItem('Credentials', [], null)
+    ])
   ]
   
 }

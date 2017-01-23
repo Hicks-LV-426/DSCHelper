@@ -15,8 +15,8 @@ body
 button, input, optgroup, select, textarea {
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight:300;
-  font-size:16px;
 }
+
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
@@ -54,8 +54,20 @@ button, input, optgroup, select, textarea {
   font-family: 'Dosis', sans-serif;
   font-weight:300;
 }
+.title-font
+{
+  font-family: 'Dosis', sans-serif;
+}
 .column
 {
   float: left;
   height: 100%;
+}
+.error
+{
+  color: #ee0000;
+  border-radius: 3px;
+  border:1px solid #4a4a52;
+  background: rgba(255, 255, 255, 0.15);
+  font-size: 18px;
 }
