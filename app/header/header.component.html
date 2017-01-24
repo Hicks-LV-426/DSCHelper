@@ -1,5 +1,31 @@
-<div class="header-body title">
-  <div class="">
+  <div class="header-body">
+    <div style="float: left; padding:12px 0;">
+      <div class="header-menu-button-body pointer no-select{{getMenuButtonClass()}}" (click)="toggleMenu()" (mouseout)="handleMenuMouseOut()" (mouseover)="handleMenuMouseOver()">
+        <i class="fa fa-bars" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div class="title" style="float:left;padding-left:32px;position:relative;top:-12px;">
+      {{title}}
+    </div>
+    <div class="header-popup-menu {{getMenuVisibility()}}" (mouseout)="handleMenuMouseOut()" (mouseover)="handleMenuMouseOver()">
+      <ul>
+        <li>New</li>
+        <li>Save</li>
+        <li>Open</li>
+        <li>Help</li>
+        <li>About</li>
+        <li>Donate</li>
+      </ul>
+    </div>
+  </div>
+<!--
+<div class="header-body">
+  <div class="pointer no-select" style="float: left; font-size:24px; padding-right:25px;padding-left:12px; border:1px solid #ccc;">
+    <i class="fa fa-bars" aria-hidden="true"></i>
+  </div>
+  <div class="title" style="float:left;">
     {{title}}
   </div>
+  
 </div>
+-->

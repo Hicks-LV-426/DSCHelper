@@ -1,4 +1,27 @@
 .header-body
 {
-  margin:15px;
+  padding:15px;
+  font-size: 24px;
+}
+.header-popup-menu
+{
+  clear:both;
+  border:1px solid #55555e; 
+  position:absolute;
+  z-index: 1;
+  top:63px;
+  left:14px;
+  background: #3f3f46;
+}
+.header-menu-button-body
+{
+  padding:0 12px;
+}
+.header-menu-button-body:hover
+{
+  background: #3f3f46;
+}
+.header-menu-open
+{
+  background: #3f3f46;
 }

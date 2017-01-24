@@ -12,9 +12,19 @@ export class ScriptComponent implements OnInit
   ngOnInit() { }
 
   @Input() collection : Collection;
+  menuVisible : boolean = false;
 
   getContent() : string
   {
     return this.collection.serialize();
+  }
+
+  onMenuClick()
+  {
+    this.menuVisible = !this.menuVisible;
+  }
+  getMenuClass() : string
+  {
+    return this.menuVisible ? "show" : "hide";
   }
 }
