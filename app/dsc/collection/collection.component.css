@@ -1,10 +1,8 @@
 .dsc-collection-main
 {
-  height:753px;
-}
-.dsc-menu
-{
-  font-size:22px;
+  white-space: nowrap;
+  vertical-align: top;
+  height: 100%;
 }
 .dsc-menu li
 {

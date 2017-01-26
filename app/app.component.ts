@@ -1,18 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {Subject } from 'rxjs/Subject';
-
-import { NavigationService} from './navigation/navigation.service';
-import { NavigationArgument } from './navigation/navigation-argument';
-
 
 @Component({
   selector: 'my-app',
   templateUrl: 'app/app.component.html',
   styleUrls: ['app/app.component.css']
 })
-export class AppComponent implements OnInit, OnDestroy
+export class AppComponent implements OnInit
 { 
-  constructor(private navigationService : NavigationService) {}
+  constructor() {}
   componentToShow : string = "welcome";
   someValue : string;
 
@@ -44,16 +40,10 @@ export class AppComponent implements OnInit, OnDestroy
   }
   ngOnInit()
   {
-    this.componentToShow = "welcome";
-    this.navigationService.onNavigate.subscribe(value => this.onNavigate(value));
   }
-  ngOnDestroy()
-  {
-    this.navigationService.onNavigate.unsubscribe();
-  }
-  onNavigate(component : NavigationArgument)
-  {
 
-    this.componentToShow = component.target;
+  onHeaderSelect(value : string)
+  {
+    this.componentToShow = value.toLowerCase();
   }
 }

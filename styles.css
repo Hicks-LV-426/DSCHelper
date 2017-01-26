@@ -16,7 +16,16 @@ button, input, optgroup, select, textarea {
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight:300;
 }
-
+.menu-font
+{
+  font-size: 22px;
+}
+.block
+{
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
 .noselect {
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
@@ -40,6 +49,10 @@ button, input, optgroup, select, textarea {
 .border-right
 {
   border-right:1px solid #4a4a52;
+}
+.border-left
+{
+  border-left:1px solid #4a4a52;
 }
 .horizontal-center {
     margin: 0;
@@ -78,4 +91,12 @@ button, input, optgroup, select, textarea {
 .hide
 {
   display:none;
+}
+.dsc-button
+{
+  padding:5px;
+}
+.dsc-button:hover
+{
+  background: #3f3f46;
 }

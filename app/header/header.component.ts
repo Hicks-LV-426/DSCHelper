@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -12,8 +12,14 @@ export class HeaderComponent implements OnInit {
   title : string = "Desired State Configuration Helper";
   menuVisible : boolean = false;
   menuMouseOver : boolean = false;
+  menuItems : string[] = ["New", "Save", "Open", "Help", "About", "Donate"];
+  @Output() select : EventEmitter<string> = new EventEmitter<string>();
 
-  ngOnInit() {
+  ngOnInit() {}
+  menuItemClicked(value : string)
+  {
+    this.select.emit(value);
+    this.menuVisible = false;
   }
   toggleMenu()
   {
@@ -34,7 +40,7 @@ export class HeaderComponent implements OnInit {
       {
         if(!this.menuMouseOver && this.menuVisible) this.menuVisible = false;
       }, 
-      500);//the timeout 500ms
+      800);//the timeout 500ms
   }
   handleMenuMouseOver()
   {

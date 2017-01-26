@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Collection } from './collection';
-import { Parameter} from '../parameter/parameter';
+import { Parameter} from '../common/parameter';
 
 @Component({
   selector: 'dsc-collection',
@@ -52,14 +52,14 @@ export class CollectionComponent implements OnInit
   {
       if(this.selectedAction == undefined || this.selectedAction.length == 0)
       {
-        return "dsc";
+        return "";
       }
       return this.selectedAction;
   }
   
   ngOnInit()
   {
-    for(let item of this.collection.items)
+    for(let item of this.collection.getItemNames())
     {
       this.menuItems.push(item);
     }
@@ -67,12 +67,11 @@ export class CollectionComponent implements OnInit
 
   onParameterCancel(event : any)
   {
-    this.selectedAction = "dsc";
+    this.selectedAction = "";
   }
   onParameterSave(value : Parameter)
   {
-    this.collection.parameters.push(value);
-    this.selectedAction = "dsc";
+    this.collection.add(value);
+    this.selectedAction = "";
   }
-
 }

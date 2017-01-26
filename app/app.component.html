@@ -1,33 +1,21 @@
 <header class="app-header">
-  <app-header></app-header>
+  <app-header (select)="onHeaderSelect($event)"></app-header>
 </header>
-<!--<div class="app-body border-full">
-  <div class="app-header border-bottom">
-    
-  </div>
+<div class="app-body border-bottom">
+  <div style="overflow: auto;height: 100%;">
+      <div *ngIf="getRegionn() == 'WELCOME'">WELCOME</div>
+      <dsc-collection *ngIf="getRegionn() == 'DSCC'"></dsc-collection>
+      <div *ngIf="getRegionn() == 'HELP'">Help me</div>
+      <div *ngIf="getRegionn() == 'ABOUT'">About</div>
+      <div *ngIf="getRegionn() == 'DONATE'">Donate</div>
+      <div *ngIf="getRegionn() == '404'">404 Page not found</div>
+    </div>
+</div>
+<!--
   <div class="app-content">
     <div class="column">
       <app-menu [root]="'root'"></app-menu>
     </div>
-    <div class="column" style="overflow: auto;">
-      <div *ngIf="getRegionn() == 'WELCOME'">
-        WELCOME
-      </div>
-      <div *ngIf="getRegionn() == 'DSCC'">
-        <dsc-collection></dsc-collection>
-      </div>
-      <div *ngIf="getRegionn() == 'HELP'">
-        Help me
-      </div>
-      <div *ngIf="getRegionn() == 'ABOUT'">
-        About
-      </div>
-      <div *ngIf="getRegionn() == 'DONATE'">
-        Donate
-      </div>
-      <div *ngIf="getRegionn() == '404'">
-        404 Page not found
-      </div>
-    </div>
+    
   </div>
 </div>-->

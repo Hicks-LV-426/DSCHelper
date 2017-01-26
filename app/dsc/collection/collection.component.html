@@ -1,27 +1,47 @@
 <section class="dsc-collection-main">
-  <div class="dsc-child dsc-menu column border-right">
+  <div class="title border-bottom" style="font-size:20px;">
+    <div class="block" style="padding:5px;">DSC Collection</div>
+    <div class="block border-left noselect pointer dsc-button">Add...</div>
+
+  </div>
+  <div class="block menu-font dsc-menu border-right" style="clear: left;">
     <ul>
       <li *ngFor="let item of menuItems" class="noselect pointer" (click)="itemClicked(item)">
         {{item}}
       </li>
     </ul>
   </div>
-  <div class="dsc-child dsc-menu column border-right" *ngIf="subItemsVisible">
+  <div class="block menu-font dsc-menu border-right" *ngIf="subItemsVisible">
     <ul>
       <li *ngFor="let item of subItems" class="noselect pointer" (click)="subItemClicked(item)">
         {{item}}
       </li>
     </ul>
   </div>
-  <div class="dsc-child dsc-content column">
+  <div class="dsc-content block">
     <div [ngSwitch]="getContentName()">
+      <div *ngSwitchCase="''">
+        <code style="font-family: monospace;color:white;background: transparent;line-height: 10px;">
+          &#123;<br/>
+          &nbsp;&nbsp;letsBegin()<br/>
+          &nbsp;&nbsp;&#123;<br/>
+           &nbsp;&nbsp;&nbsp;&nbsp;do<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&#123;<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var menu = click(AddButton);<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var item = menu.ChooseItem();<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Configure();<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Save();<br/><br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;&#125; while(!finished)<br/>
+          &nbsp;&nbsp;&#125;<br/>
+        &#125;
+        </code>
+      </div>
       <div *ngSwitchCase="'dsc'">
         <dsc-script [collection]="collection"></dsc-script>
       </div>
       <div *ngSwitchCase="'new-parameter'">
         <dsc-parameter (save)="onParameterSave($event)" (cancel)="onParameterCancel($event)"></dsc-parameter>
       </div>
-      <!--<div *ngSwitchDefault>output2</div>#}-->
     </div>
   </div>
 </section >

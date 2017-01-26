@@ -1,0 +1,64 @@
+import { DscItem } from './dsc-item';
+import { Guid } from './guid';
+import { DscItemType} from './dsc-item-type';
+import { Parameter } from './parameter';
+import { ParameterType } from './parameter-type';
+
+export class Credential implements DscItem 
+{
+  constructor()
+  {
+      this.guid = Guid.getNewId();
+  }
+  // implementation of Parameter
+  name : string;
+  accountName : string;
+
+  // implementation of Identifiable
+  guid : string;
+  dscName : string;
+
+  getId() : string
+  {
+    return this.guid;
+  }
+  getName() : string
+  {
+    return this.name;
+  }
+  getType() : string
+  {
+    return DscItemType.CREDENTIAL;
+  }
+  setDscName(name : string)
+  {
+    this.dscName = name;
+  }
+  getDscName() : string
+  {
+    return this.dscName;
+  }
+  serialize() : string
+  {
+    var secureDeclaration = `$${this.getPasswordSecureName()} = ConvertTo-SecureString $${this.getPasswordName()} -AsPlainText -Force;\r\n`;
+    var credentialDeclaration = `$${this.dscName} = New-Object System.Management.Automation.PSCredential ("${this.accountName}", $${this.getPasswordSecureName()})`;
+    return secureDeclaration + credentialDeclaration;
+  }
+  getParameters() : Parameter[]
+  {
+    var passwordParameter = new Parameter();
+    passwordParameter.name = this.getPasswordName();
+    passwordParameter.type = ParameterType.PASSWORD;
+    passwordParameter.isMandatory = true;
+
+    return [passwordParameter];
+  }
+  getPasswordName() : string
+  {
+    return this.dscName + "Password";
+  }
+  getPasswordSecureName() : string
+  {
+    return this.getPasswordName() + "Secure";
+  }
+}

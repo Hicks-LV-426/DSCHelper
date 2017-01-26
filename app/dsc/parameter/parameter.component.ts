@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Parameter } from './parameter';
+import { ParameterType } from './parameter-type';
 
 @Component({
   selector: 'dsc-parameter',
@@ -10,9 +11,8 @@ export class ParameterComponent implements OnInit {
 
   constructor() { }
 
-  valueTypes : string[] = ["string", "number", "boolean"];
   paramName : string;
-  paramType : string = this.valueTypes[0];
+  paramType : string;
   paramValue : string;
   errorMessage : string = "";
   parameter : Parameter = new Parameter();
@@ -20,15 +20,23 @@ export class ParameterComponent implements OnInit {
   @Output() save : EventEmitter<Parameter> = new EventEmitter<Parameter>();
   @Output() cancel : EventEmitter<any> = new EventEmitter<any>();
 
+  // implementation of ngInit
+  ngOnInit() 
+  {
+    this.paramType = ParameterType.getTypes()[0];
+  }
+
+  // implementation of Parameter Component
   getValueTypes() : string[]
   {
-    return this.valueTypes;
+    return ParameterType.getTypes();
   }
 
   saveClicked()
   {
-    if(!this.validate())
-      return;
+    var isValid = this.validate();
+    if(!isValid) return;
+
     this.parameter.name = this.paramName;
     this.parameter.type = this.paramType
     this.parameter.value = this.paramValue;
@@ -46,7 +54,7 @@ export class ParameterComponent implements OnInit {
     else
     {
       this.paramName = '';
-      this.paramType = this.valueTypes[0];
+      this.paramType = ParameterType.getTypes()[0];
       this.paramValue = '';
     }
     this.errorMessage = '';
@@ -83,6 +91,4 @@ export class ParameterComponent implements OnInit {
   {
     this.errorMessage = `Please specify ${name}`;
   }
-  ngOnInit() {}
-
 }

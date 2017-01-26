@@ -1,0 +1,10 @@
+.dsc-script
+{
+  resize:both;
+  width:800px;
+  min-height: 550px;
+  background-color: transparent;
+  border:1px dashed #ccc;
+  color: white;
+  padding:10px;
+}
