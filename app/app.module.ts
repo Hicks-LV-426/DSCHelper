@@ -11,10 +11,11 @@ import { MenuComponent } from './menu/menu.component';
 import { CollectionComponent } from './dsc/collection/collection.component';
 import { ParameterComponent } from './dsc/parameter/parameter.component';
 import { ScriptComponent } from './dsc/script/script.component';
+import { CredentialComponent } from './dsc/credential/credential.component';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule ],
-  declarations: [ AppComponent, HeaderComponent, MenuComponent, CollectionComponent, ParameterComponent, ScriptComponent ],
+  declarations: [ AppComponent, HeaderComponent, MenuComponent, CollectionComponent, ParameterComponent, ScriptComponent, CredentialComponent ],
   bootstrap:    [ AppComponent ],
   providers: [MenuService, NavigationService]
 })

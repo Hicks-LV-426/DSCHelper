@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { Parameter } from './parameter';
-import { ParameterType } from './parameter-type';
+import { Parameter } from '../common/parameter';
+import { ParameterType } from '../common/parameter-type';
 
 @Component({
   selector: 'dsc-parameter',

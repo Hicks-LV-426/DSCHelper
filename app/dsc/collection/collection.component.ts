@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Collection } from './collection';
-import { Parameter} from '../common/parameter';
+import { Parameter } from '../common/parameter';
+import { Credential } from '../common/credential';
+import { Popup } from '../../popup/popup';
 
 @Component({
   selector: 'dsc-collection',
@@ -10,42 +12,49 @@ import { Parameter} from '../common/parameter';
 })
 export class CollectionComponent implements OnInit 
 {
+  collection: Collection = new Collection();
+  popup: Popup = new Popup();
+  dscItems : string[] = ["DSC {}"];
+  menuItems : string[] = ["Parameter", "Credential", "Windows Feature", "Firewall Rule", "Install SQL Server", "Copy File or Folder", "Create Folder", "Delete Folder", "Batch Create Folders"];
+  selectedAction: string;
+
   constructor() { }
 
-  collection : Collection = new Collection();
-  menuItems : string[] = ["Add...", "DSC {}"];
-  subItems : string[] = ["Parameter", "Credential", "Windows Feature", "Firewall Rule", "Install SQL Server", "Copy File or Folder", "Create Folder", "Delete Folder", "Batch Create Folders"];
+  ngOnInit()
+  {
+    for(let item of this.collection.getItemNames())
+    {
+      this.dscItems.push(item);
+    }
+  }
 
-  selectedAction : string;
-  subItemsVisible : boolean = false;
-
+  // handle item clicks
   itemClicked(action : string)
   {
-    if(action.startsWith("Add"))
-    {
-      this.subItemsVisible = !this.subItemsVisible;
-      return;
-    }
-    else if(action.startsWith("DSC"))
+    if(action.startsWith("DSC"))
     {
       this.selectedAction = "dsc";
     }
-
-    this.subItemsVisible = false;
-
+    else
+    {
+      this.selectedAction = "";
+    }
   }
-  subItemClicked(action : string)
+  popupItemClicked(action : string)
   {
     switch (action) 
     {
       case "Parameter":
-        this.selectedAction = "new-parameter";
+        this.selectedAction = action.toLowerCase();
+        break;
+      case "Credential":
+        this.selectedAction = action.toLowerCase();
         break;
       default:
-        this.selectedAction = "dsc";
+        this.selectedAction = "";
         break;
     }
-    this.subItemsVisible = false;
+    this.popup.hide();
   }
 
   getContentName() : string
@@ -56,22 +65,26 @@ export class CollectionComponent implements OnInit
       }
       return this.selectedAction;
   }
-  
-  ngOnInit()
-  {
-    for(let item of this.collection.getItemNames())
-    {
-      this.menuItems.push(item);
-    }
-  }
 
+  // parameter events
   onParameterCancel(event : any)
   {
     this.selectedAction = "";
   }
-  onParameterSave(value : Parameter)
+  onParameterSave(parameter : Parameter)
   {
-    this.collection.add(value);
+    this.collection.addParameter(parameter);
+    this.selectedAction = "";
+  }
+  
+  // credential events
+  onCredentialCancel(event : string)
+  {
+    this.selectedAction = "";
+  }
+  onCredentialSave(credential : Credential)
+  {
+    this.collection.addCredential(credential);
     this.selectedAction = "";
   }
 }

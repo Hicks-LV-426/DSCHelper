@@ -16,10 +16,6 @@ button, input, optgroup, select, textarea {
   font-family: 'Open Sans Condensed', sans-serif;
   font-weight:300;
 }
-.menu-font
-{
-  font-size: 22px;
-}
 .block
 {
   display: inline-block;
@@ -97,6 +93,42 @@ button, input, optgroup, select, textarea {
   padding:5px;
 }
 .dsc-button:hover
+{
+  background: #3f3f46;
+}
+.popup
+{
+  clear:both;
+  border:1px solid #55555e; 
+  position:absolute;
+  z-index: 1;
+  background: #3f3f46;
+  font-size:22px;
+}
+.popup li:hover
+{
+  background: #4f4f56;
+}
+.menu-font 
+{
+  font-size: 20px;
+}
+.popup-item
+{
+  padding:10px 20px 15px 20px;
+  margin-top:2px;
+  font-size:20px;
+}
+.popup-button
+{
+  padding:0 12px;
+}
+
+.popup-button:hover
+{
+  background: #3f3f46;
+}
+.popup-button-selected
 {
   background: #3f3f46;
 }

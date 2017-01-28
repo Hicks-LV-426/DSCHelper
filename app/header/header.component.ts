@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Popup } from '../popup/popup';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +10,8 @@ export class HeaderComponent implements OnInit {
 
   constructor() { }
 
-  title : string = "Desired State Configuration Helper";
-  menuVisible : boolean = false;
-  menuMouseOver : boolean = false;
+  title: string = "Desired State Configuration Helper";
+  popup: Popup = new Popup();
   menuItems : string[] = ["New", "Save", "Open", "Help", "About", "Donate"];
   @Output() select : EventEmitter<string> = new EventEmitter<string>();
 
@@ -19,31 +19,32 @@ export class HeaderComponent implements OnInit {
   menuItemClicked(value : string)
   {
     this.select.emit(value);
-    this.menuVisible = false;
+    this.popup.hide();
   }
-  toggleMenu()
-  {
-    this.menuVisible = !this.menuVisible;
-  }
-  getMenuVisibility() : string
-  {
-    return this.menuVisible ? "show" : "hide";
-  }
-  getMenuButtonClass() : string
-  {
-    return this.menuVisible ? " header-menu-open" : "";
-  }
-  handleMenuMouseOut()
-  {
-    this.menuMouseOver = false;
-    setTimeout(() => 
-      {
-        if(!this.menuMouseOver && this.menuVisible) this.menuVisible = false;
-      }, 
-      800);//the timeout 500ms
-  }
-  handleMenuMouseOver()
-  {
-    this.menuMouseOver = true;
-  }
+  
+  //toggleMenu()
+  //{
+  //  this.menuVisible = !this.menuVisible;
+  //}
+  //getMenuVisibility() : string
+  //{
+  //  return this.menuVisible ? "show" : "hide";
+  //}
+  //getMenuButtonClass() : string
+  //{
+  //  return this.menuVisible ? " popup-button-selected" : "";
+  //}
+  //handleMenuMouseOut()
+  //{
+  //  this.menuMouseOver = false;
+  //  setTimeout(() => 
+  //    {
+  //      if(!this.menuMouseOver && this.menuVisible) this.menuVisible = false;
+  //    }, 
+  //    800);//the timeout 500ms
+  //}
+  //handleMenuMouseOver()
+  //{
+  //  this.menuMouseOver = true;
+  //}
 }

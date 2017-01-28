@@ -3,7 +3,7 @@ import { Guid } from './guid';
 import { DscItemType} from './dsc-item-type';
 import { ParameterType } from './parameter-type';
 
-export class Parameter implements DscItem 
+export class Parameter implements DscItem
 {
   constructor()
   {
@@ -14,11 +14,10 @@ export class Parameter implements DscItem
   name : string;
   type : string;
   value : string;
-  isMandatory : boolean = false;
 
   // implementation of Identifiable
-  guid : string;
-  dscName : string;
+  private guid : string;
+  private dscName : string;
 
   getId() : string
   {
@@ -42,18 +41,29 @@ export class Parameter implements DscItem
   }
   serialize() : string
   {
-    switch (this.type) 
+    var valuePart : string;
+    if(this.isNulOrEmpty(this.value))
+      valuePart = "";
+    else
+      valuePart = ` = ${this.formatValue(this.value, this.type)}`;
+
+    return `$${this.dscName}${valuePart}`;
+  }
+
+  isNulOrEmpty(value : string) : boolean
+  {
+    return (value === undefined || value === null || value.trim().length === 0);
+  }
+  formatValue(type : string, value : string) : string
+  {
+    switch (type) 
     {
       case ParameterType.BOOLEAN:
-        return `$${this.dscName} = $${this.value};`;
+        return `$${this.value}`;
       case ParameterType.NUMBER:
-        return `$${this.dscName} = ${this.value};`;
+        return `${this.value}`;
       default:
-        return `$${this.dscName} = "${this.value}";`;
+        return `"${this.value}"`;
     }
-  }
-  getParameters() : Parameter[]
-  {
-    return [];
   }
 }

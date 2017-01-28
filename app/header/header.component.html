@@ -1,15 +1,15 @@
   <div class="header-body">
     <div style="float: left; padding:6px 0;">
-      <div class="header-menu-button-body pointer no-select{{getMenuButtonClass()}}" (click)="toggleMenu()" (mouseout)="handleMenuMouseOut()" (mouseover)="handleMenuMouseOver()">
-        <i class="fa fa-bars" aria-hidden="true"></i>
+      <div class="{{popup.getButtonClasses()}}" (click)="popup.toggle()" (mouseout)="popup.handleMouseOut()" (mouseover)="popup.handleMouseOver()">
+        <i class="fa fa-bars" aria-hidden="true" style="font-size: 24px;"></i>
       </div>
     </div>
     <div class="title" style="float:left;padding-left:32px;position:relative;top:-12px;">
       {{title}}
     </div>
-    <div class="menu-font header-popup-menu {{getMenuVisibility()}}" (mouseout)="handleMenuMouseOut()" (mouseover)="handleMenuMouseOver()">
+    <div class="popup header-menu {{popup.getVisibilityClass()}}" (mouseout)="popup.handleMouseOut()" (mouseover)="popup.handleMouseOver()">
       <ul>
-        <li class="header-menu-item pointer noselect" *ngFor="let item of menuItems" (click)="menuItemClicked(item)" >{{item}}</li>
+        <li class="popup-item pointer noselect" *ngFor="let item of menuItems" (click)="menuItemClicked(item)" >{{item}}</li>
       </ul>
     </div>
   </div>

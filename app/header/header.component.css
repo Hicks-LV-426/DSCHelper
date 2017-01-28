@@ -3,35 +3,8 @@
   padding:15px;
   font-size: 20px;
 }
-.header-popup-menu
+.header-menu
 {
-  clear:both;
-  border:1px solid #55555e; 
-  position:absolute;
-  z-index: 1;
   top:57px;
   left:14px;
-  background: #3f3f46;
-}
-.header-popup-menu li:hover
-{
-  background: #4f4f56;
-}
-.header-menu-button-body
-{
-  font-size: 24px;
-  padding:0 12px;
-}
-.header-menu-button-body:hover
-{
-  background: #3f3f46;
-}
-.header-menu-open
-{
-  background: #3f3f46;
-}
-.header-menu-item
-{
-  padding:10px 20px 15px 20px;
-  margin-top:2px;
 }

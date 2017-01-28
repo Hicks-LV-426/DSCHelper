@@ -1,7 +1,7 @@
-import { Parameter } from '../parameter/parameter';
-import { ItemManager } from '../name-management/item-manager';
-import { DscItemType } from '../name-management/dsc-item-type';
-import { DscItem } from '../name-management/dsc-item';
+import { Parameter } from '../common/parameter';
+import { Credential } from '../common/credential';
+import { DscItem } from '../common/dsc-item';
+import { ItemManager } from '../common/item-manager';
 
 export class Collection 
 {
@@ -10,44 +10,53 @@ export class Collection
   private itemManager : ItemManager = new ItemManager();
 
 
-  public add(item : DscItem) : boolean
-  {
-    return this.itemManager.add(item);
-  }
   public getItemNames() : string[]
   {
     return this.itemNames;
   }
+  public addItem(item : DscItem) : boolean
+  {
+    return this.itemManager.addItem(item);
+  }
+  public addParameter(parameter : Parameter) : boolean
+  {
+    return this.itemManager.addParameter(parameter);
+  }
+  public addCredential(credetial : Credential) : boolean
+  {
+    return this.itemManager.addCredential(credetial);
+  }
 
   serialize() : string
   {
-    var items = this.itemManager.getItems();
+    var credentials = this.itemManager.getCredentials();
+    var parameters = this.itemManager.getParameters();
     var values : string[] = [];
 
     values.push("PARAM");
     values.push("(");
     values.push("\t[Parameter(Mandatory=$true)][String]$serverName");
 
-    for(var i : number = 0; i < items.length; i++)
+    for(var cred of credentials)
     {
-
-      var mandatoryParam = items[0].serializeMandatoryParameter();
-      if(this.hasValue(mandatoryParam)) 
-      {
-        values.push(`\r\n\t, [Parameter(Mandatory=$true)]${mandatoryParam}`);
-      }
+      values.push(`\r\n\t, [Parameter(Mandatory=$true)][String]${cred.getPasswordParameter().serialize()}`);
     }
 
-    values.push(")\r\n# dsc parameters");
+    values.push(")\r\n");
+    values.push("# dsc parameters");
 
-    for(var i : number = 0; i < items.length; i++)
+    for(var param of parameters)
     {
-      var standardParam = items[0].serializeParameter();
-      if(this.hasValue(standardParam))
-      {
-        values.push(standardParam);
-      }
+        values.push(param.serialize() + ";");
     }
+
+    values.push("\r\n");
+    values.push("# dsc credentials");
+    for(var cred of credentials)
+    {
+      values.push(cred.serialize());
+    }
+
     values.push("\r\n");
     values.push(`Configuration DscDeploy 
 {  
@@ -82,8 +91,9 @@ DscDeploy
 Start-DscConfiguration -Wait -verbose -Path C:\\DscDeploy\\;`);
     return values.join('\r\n');
   }
-  hasValue(value : string) : boolean
+
+  isNullOrEmpty(value : string) : boolean
   {
-    return (value != undefined && value != null && value.length > 0);
+    return (value === undefined || value === null || value.trim().length === 0);
   }
 }

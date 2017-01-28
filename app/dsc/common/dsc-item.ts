@@ -7,5 +7,4 @@ export interface DscItem {
   setDscName(name : string) : void;
   getDscName() : string;
   serialize() : string;
-  getParameters() : Parameter[]; 
 }

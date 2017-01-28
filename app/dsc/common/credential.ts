@@ -15,8 +15,8 @@ export class Credential implements DscItem
   accountName : string;
 
   // implementation of Identifiable
-  guid : string;
-  dscName : string;
+  private guid : string;
+  private dscName : string;
 
   getId() : string
   {
@@ -40,25 +40,25 @@ export class Credential implements DscItem
   }
   serialize() : string
   {
-    var secureDeclaration = `$${this.getPasswordSecureName()} = ConvertTo-SecureString $${this.getPasswordName()} -AsPlainText -Force;\r\n`;
+    var secureDeclaration = `$${this.getPasswordSecureName()} = ConvertTo-SecureString $${this.getPasswordParameterName()} -AsPlainText -Force;\r\n`;
     var credentialDeclaration = `$${this.dscName} = New-Object System.Management.Automation.PSCredential ("${this.accountName}", $${this.getPasswordSecureName()})`;
     return secureDeclaration + credentialDeclaration;
   }
-  getParameters() : Parameter[]
+  getPasswordParameter() : Parameter
   {
     var passwordParameter = new Parameter();
-    passwordParameter.name = this.getPasswordName();
+    passwordParameter.name = this.getPasswordParameterName();
+    passwordParameter.setDscName(this.getPasswordParameterName());
     passwordParameter.type = ParameterType.PASSWORD;
-    passwordParameter.isMandatory = true;
 
-    return [passwordParameter];
+    return passwordParameter;
   }
-  getPasswordName() : string
+  getPasswordParameterName() : string
   {
     return this.dscName + "Password";
   }
   getPasswordSecureName() : string
   {
-    return this.getPasswordName() + "Secure";
+    return this.getPasswordParameterName() + "Secure";
   }
 }
