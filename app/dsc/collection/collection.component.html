@@ -44,6 +44,9 @@
       <div *ngSwitchCase="'credential'">
         <dsc-credential (save)="onCredentialSave($event)" (cancel)="onCredentialCancel($event)"></dsc-credential>
       </div>
+      <div *ngSwitchCase="'windows feature'">
+        <dsc-feature></dsc-feature>
+      </div>
     </div>
   </div>
 </section>

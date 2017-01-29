@@ -50,6 +50,9 @@ export class CollectionComponent implements OnInit
       case "Credential":
         this.selectedAction = action.toLowerCase();
         break;
+      case "Windows Feature":
+        this.selectedAction = action.toLowerCase();
+        break;
       default:
         this.selectedAction = "";
         break;

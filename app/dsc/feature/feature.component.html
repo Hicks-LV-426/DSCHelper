@@ -1,0 +1,16 @@
+<section class="dsc-form-body">
+  <div style="padding:5px;">
+    <div class="title-font dsc-form-title">Windows Features</div>
+    <form class="form-horizontal" name="dsc-parameter">
+      <div class="form-group">
+        <label class="control-label">Server Version:</label>
+        <div>
+          <select name="selected-version" [(ngModel)]="selectedVersion" class="form-control">
+            <option *ngFor="let serv of servers">{{serv.Version}}</option>
+          </select>
+        </div>
+      </div>
+    </form>
+    <div class="error">{{errorMessage}}</div>
+  </div>
+</section>
