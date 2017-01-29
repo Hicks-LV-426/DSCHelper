@@ -6,11 +6,15 @@
         <label class="control-label">Server Version:</label>
         <div>
           <select name="selected-version" [(ngModel)]="selectedVersion" class="form-control">
+            <option>select an operating system</option>
             <option *ngFor="let serv of servers">{{serv.Version}}</option>
           </select>
         </div>
       </div>
     </form>
+    <div>
+      <dsc-feature-list [parent]="null" [features]="getFeatures()"></dsc-feature-list>
+    </div>
     <div class="error">{{errorMessage}}</div>
   </div>
 </section>

@@ -1,0 +1,11 @@
+<div style="clear:left" *ngFor="let feature of getFeatures()">
+    <div style="clear:left">
+      <div style="height:14px;width:10px;border-bottom:1px dashed #999;clear:left;float:left;"></div>
+      <div style="padding-left:2px;float:left;">
+        {{feature.DisplayName}}
+      </div>
+    </div>
+    <div style="margin-left:15px;border-left:1px dashed #999;clear:left;">
+        <dsc-feature-list [parent]="feature.Name" [features]="features"></dsc-feature-list>
+    </div>
+</div>

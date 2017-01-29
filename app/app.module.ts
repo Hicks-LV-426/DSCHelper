@@ -15,10 +15,20 @@ import { ParameterComponent } from './dsc/parameter/parameter.component';
 import { ScriptComponent } from './dsc/script/script.component';
 import { CredentialComponent } from './dsc/credential/credential.component';
 import { FeatureComponent } from './dsc/feature/feature.component';
+import { FeatureListComponent } from './dsc/feature/feature.list.component';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, HttpModule],
-  declarations: [AppComponent, HeaderComponent, MenuComponent, CollectionComponent, ParameterComponent, ScriptComponent, CredentialComponent, FeatureComponent],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    MenuComponent,
+    CollectionComponent,
+    ParameterComponent,
+    ScriptComponent,
+    CredentialComponent,
+    FeatureComponent,
+    FeatureListComponent],
   bootstrap: [AppComponent],
   providers: [MenuService, NavigationService, FeatureService]
 })

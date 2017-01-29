@@ -11,7 +11,6 @@ import { Feature } from './feature';
 })
 export class FeatureComponent implements OnInit 
 {
-  versions: string[] = ["2012 R2", "2016"];
   selectedVersion: string = "";
   servers: Server[];
 
@@ -23,5 +22,14 @@ export class FeatureComponent implements OnInit
     {
       this.servers = servers;
     });
+  }
+  getFeatures(): Feature[]
+  {
+    if (this.servers === undefined) return [];
+
+    var s = this.servers.find(sv => sv.Version == this.selectedVersion);
+    if (s === undefined) return [];
+
+    return s.Features;
   }
 }
