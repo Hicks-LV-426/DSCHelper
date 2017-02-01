@@ -2,8 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\app",
-    "\\app\\dsc"
+    "\\app\\dsc",
+    "\\app\\dsc\\collection",
+    "\\app\\dsc\\feature",
+    "\\app\\dsc\\parameter"
   ],
-  "SelectedNode": "\\styles.css",
+  "SelectedNode": "\\app\\dsc\\feature\\feature.ts",
   "PreviewInSolutionExplorer": false
 }

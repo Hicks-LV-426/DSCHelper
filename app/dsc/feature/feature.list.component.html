@@ -2,7 +2,8 @@
     <div style="clear:left">
       <div style="height:14px;width:10px;border-bottom:1px dashed #999;clear:left;float:left;"></div>
       <div style="padding-left:2px;float:left;">
-        {{feature.DisplayName}}
+        <input type="checkbox" [checked]="isSelected(feature.Name)" (change)="itemToggle(feature.Name)" style="display:inline-block;" />
+        <label class="pointer noselect" style="display:inline-block" (click)="itemToggle(feature.Name)" [title]="feature.Name">{{feature.DisplayName}}</label>
       </div>
     </div>
     <div style="margin-left:15px;border-left:1px dashed #999;clear:left;">
