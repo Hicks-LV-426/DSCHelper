@@ -3,10 +3,8 @@
     "",
     "\\app",
     "\\app\\dsc",
-    "\\app\\dsc\\collection",
-    "\\app\\dsc\\feature",
-    "\\app\\dsc\\parameter"
+    "\\app\\dsc\\feature"
   ],
-  "SelectedNode": "\\app\\dsc\\feature\\feature.ts",
+  "SelectedNode": "\\app\\dsc\\feature\\dependency.coordinator.ts",
   "PreviewInSolutionExplorer": false
 }
