@@ -75,9 +75,10 @@ button, input, optgroup, select, textarea {
 .error
 {
   color: #ee0000;
+  padding:4px;
   border-radius: 3px;
   border:1px solid #4a4a52;
-  background: rgba(255, 255, 255, 0.15);
+  background: #aab;
   font-size: 18px;
 }
 .show 

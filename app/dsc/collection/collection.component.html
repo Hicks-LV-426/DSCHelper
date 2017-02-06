@@ -39,13 +39,13 @@
         <dsc-script [collection]="collection"></dsc-script>
       </div>
       <div *ngSwitchCase="'parameter'">
-        <dsc-parameter (save)="onParameterSave($event)" (cancel)="onParameterCancel($event)"></dsc-parameter>
+        <dsc-parameter (save)="onParameterSave($event)" (cancel)="onCancel($event)"></dsc-parameter>
       </div>
       <div *ngSwitchCase="'credential'">
-        <dsc-credential (save)="onCredentialSave($event)" (cancel)="onCredentialCancel($event)"></dsc-credential>
+        <dsc-credential (save)="onCredentialSave($event)" (cancel)="onCancel($event)"></dsc-credential>
       </div>
       <div *ngSwitchCase="'windows feature'">
-        <dsc-feature></dsc-feature>
+        <dsc-feature [credentials]="collection.getCredentials()" (save)="onFeatureSave($event)" (cancel)="onCancel($event)"></dsc-feature>
       </div>
     </div>
   </div>

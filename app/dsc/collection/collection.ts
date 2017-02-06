@@ -26,6 +26,10 @@ export class Collection
   {
     return this.itemManager.addCredential(credetial);
   }
+  public getCredentials(): Credential[]
+  {
+    return this.itemManager.getCredentials();
+  }
 
   serialize() : string
   {

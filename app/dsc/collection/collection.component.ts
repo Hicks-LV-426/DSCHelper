@@ -69,25 +69,31 @@ export class CollectionComponent implements OnInit
       return this.selectedAction;
   }
 
+  // generic cancel
+
   // parameter events
-  onParameterCancel(event : any)
+  onCancel(event : any)
   {
     this.selectedAction = "";
   }
-  onParameterSave(parameter : Parameter)
+  onParameterSave(parameter : Parameter) : void
   {
     this.collection.addParameter(parameter);
     this.selectedAction = "";
   }
   
   // credential events
-  onCredentialCancel(event : string)
-  {
-    this.selectedAction = "";
-  }
-  onCredentialSave(credential : Credential)
+  onCredentialSave(credential : Credential) : void
   {
     this.collection.addCredential(credential);
+    this.selectedAction = "";
+  }
+
+  // windows feature
+  onFeatureSave(features: string[]) : void
+  {
+    console.info("features were saved");
+    console.info(features);
     this.selectedAction = "";
   }
 }
