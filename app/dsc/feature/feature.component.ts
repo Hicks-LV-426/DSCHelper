@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 
+import { FeatureEventArgs } from '../common/feature-event-args';
 import { FeatureService } from './feature.service';
 import { DependencyCoordinator } from './dependency.coordinator';
 import { Credential } from '../common/credential';
@@ -16,7 +17,7 @@ import { Popup } from '../../popup/popup';
 export class FeatureComponent implements OnInit 
 {
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
-  @Output() save: EventEmitter<string[]> = new EventEmitter<string[]>();
+  @Output() save: EventEmitter<FeatureEventArgs> = new EventEmitter<FeatureEventArgs>();
   @Input() credentials: Credential[];
 
   selectedVersion: string = "";
@@ -74,7 +75,9 @@ export class FeatureComponent implements OnInit
       var s = this.servers.find(sv => sv.Version == this.selectedVersion);
       var featuresWithDependencies = this.getDependencies(this.selectedFeatures, s.Features);
 
-      this.save.emit(featuresWithDependencies);
+      var e = new FeatureEventArgs(featuresWithDependencies, this.selectedEnsure, this.selectedCredential);
+
+      this.save.emit(e);
     }
   }
   getDependencies(values: string[], features: Feature[]): string[]

@@ -38,10 +38,7 @@ export class ItemManager
   }
   public addItem(item : DscItem) : boolean
   {
-    console.debug("received id: " + item.getId());
-
     var contains = this.hasItem(item);
-    console.debug("contains = " + contains);
     if(contains) return false;
 
     this.assignName(item);

@@ -12,7 +12,7 @@
   </div>
   <div class="block menu-font dsc-menu border-right" style="clear: left;">
     <ul>
-      <li *ngFor="let item of dscItems" class="noselect pointer menu-font" (click)="itemClicked(item)">
+      <li *ngFor="let item of getItemNames()" class="noselect pointer menu-font" (click)="itemClicked(item)">
         {{item}}
       </li>
     </ul>

@@ -2,6 +2,8 @@ import { Parameter } from '../common/parameter';
 import { Credential } from '../common/credential';
 import { DscItem } from '../common/dsc-item';
 import { ItemManager } from '../common/item-manager';
+import { FeatureEventArgs } from '../common/feature-event-args';
+import { WindowsFeature } from '../common/windows-feature';
 
 export class Collection 
 {
@@ -9,19 +11,28 @@ export class Collection
   private parameters : Parameter[] = [];
   private itemManager : ItemManager = new ItemManager();
 
-
+  // 
   public getItemNames() : string[]
   {
     return this.itemNames;
   }
-  public addItem(item : DscItem) : boolean
+
+  // windows feature methods
+  public addWindowsFeature(e: FeatureEventArgs): boolean
   {
-    return this.itemManager.addItem(item);
+    var feature = new WindowsFeature(e.features, e.ensure, e.credentialName);
+    var added = this.itemManager.addItem(feature);
+    if (added) this.itemNames.push('Windows Features');
+    return added;
   }
+
+  // parameter methods
   public addParameter(parameter : Parameter) : boolean
   {
     return this.itemManager.addParameter(parameter);
   }
+
+  // credential methods
   public addCredential(credetial : Credential) : boolean
   {
     return this.itemManager.addCredential(credetial);
@@ -31,10 +42,12 @@ export class Collection
     return this.itemManager.getCredentials();
   }
 
+  // serialization methods
   serialize() : string
   {
     var credentials = this.itemManager.getCredentials();
     var parameters = this.itemManager.getParameters();
+    var items = this.itemManager.getItems();
     var values : string[] = [];
 
     values.push("PARAM");
@@ -62,42 +75,34 @@ export class Collection
     }
 
     values.push("\r\n");
-    values.push(`Configuration DscDeploy 
-{  
-  
-  param( 
-    [Parameter(Mandatory=$true)] 
-    [String[]]$Servers, 
-    [Parameter(Mandatory=$true)] 
-    [String]$SourceFile, 
-    [Parameter(Mandatory=$true)] 
-    [String]$DestinationFile
-  ) 
+    values.push('Configuration DscDeploy');
+    values.push('{');
+    values.push('Import-DscResource -ModuleName PSDesiredStateConfiguration;');
+    values.push('\r\n');
+    values.push('\tNode $serverName');
+    values.push('\t{');
 
-  Node $Servers
-  {  
-    File CopyHostFile 
-    { 
-        Ensure = "Present" 
-        Type = "File" 
-        SourcePath = $SourceFile
-        DestinationPath = $DestinationFile
-    } 
-  } 
-}
+    for (var dscItem of items) {
+      values.push(dscItem.serialize());
+    }
+    values.push('\t}');
+    values.push('}');
+    values.push("\r\n");
 
-DscDeploy
-  	-Servers @("ADM01","ADM11")
-  	-SourceFile  "\\\\Share\\Hosts"
-  	-DestinationFile  "C:\\Windows\\System32\\drivers\\etc\\"
-  	-OutputPath  "C:\\DscDeploy\\";
+    values.push('$cd = @{');
+    values.push('AllNodes = @(');
+    values.push('    @{');
+    values.push('        NodeName = $serverName');
+    values.push('        PSDscAllowDomainUser = $true');
+    values.push('        PSDscAllowPlainTextPassword = $true');
+    values.push('    }');
+    values.push(')');
+    values.push('}');
 
-Start-DscConfiguration -Wait -verbose -Path C:\\DscDeploy\\;`);
+    values.push("\r\n");
+    values.push('DscDeploy -OutputPath "C:\\DscDeploy\\" -ConfigurationData $cd;');
+    values.push('Start-DscConfiguration -Wait -verbose -Path C:\\DscDeploy\\;');
     return values.join('\r\n');
   }
 
-  isNullOrEmpty(value : string) : boolean
-  {
-    return (value === undefined || value === null || value.trim().length === 0);
-  }
 }

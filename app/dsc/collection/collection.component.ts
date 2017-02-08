@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { FeatureEventArgs } from '../common/feature-event-args';
 import { Collection } from './collection';
 import { Parameter } from '../common/parameter';
 import { Credential } from '../common/credential';
@@ -22,10 +23,12 @@ export class CollectionComponent implements OnInit
 
   ngOnInit()
   {
-    for(let item of this.collection.getItemNames())
-    {
-      this.dscItems.push(item);
-    }
+    
+  }
+
+  getItemNames(): string[]
+  {
+    return this.dscItems.concat(this.collection.getItemNames());
   }
 
   // handle item clicks
@@ -90,10 +93,9 @@ export class CollectionComponent implements OnInit
   }
 
   // windows feature
-  onFeatureSave(features: string[]) : void
+  onFeatureSave(e: FeatureEventArgs) : void
   {
-    console.info("features were saved");
-    console.info(features);
+    this.collection.addWindowsFeature(e);
     this.selectedAction = "";
   }
 }
