@@ -3,8 +3,9 @@
     "",
     "\\app",
     "\\app\\dsc",
-    "\\app\\dsc\\feature"
+    "\\app\\dsc\\feature",
+    "\\app\\dsc\\firewall"
   ],
-  "SelectedNode": "\\app\\dsc\\feature\\dependency.coordinator.ts",
+  "SelectedNode": "\\app\\dsc\\feature\\feature.component.html",
   "PreviewInSolutionExplorer": false
 }

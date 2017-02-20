@@ -21,12 +21,13 @@
     <div [ngSwitch]="getContentName()">
       <div *ngSwitchCase="''">
         <code style="font-family: monospace;color:white;background: transparent;line-height: 10px;">
+          class DSCHelper<br/>
           &#123;<br/>
-          &nbsp;&nbsp;letsBegin()<br/>
+          &nbsp;&nbsp;function startConfiguration()<br/>
           &nbsp;&nbsp;&#123;<br/>
            &nbsp;&nbsp;&nbsp;&nbsp;do<br/>
             &nbsp;&nbsp;&nbsp;&nbsp;&#123;<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var menu = click(AddButton);<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var menu = header.click('Add...');<br/>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var item = menu.ChooseItem();<br/>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Configure();<br/>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;item.Save();<br/><br/>
@@ -46,6 +47,9 @@
       </div>
       <div *ngSwitchCase="'windows feature'">
         <dsc-feature [credentials]="collection.getCredentials()" (save)="onFeatureSave($event)" (cancel)="onCancel($event)"></dsc-feature>
+      </div>
+      <div *ngSwitchCase="'firewall rule'">
+        <dsc-firewall (save)="onFirewallSave($event)" (cancel)="onCancel($event)"></dsc-firewall>
       </div>
     </div>
   </div>

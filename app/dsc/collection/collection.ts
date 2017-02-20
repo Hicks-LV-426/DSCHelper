@@ -3,16 +3,18 @@ import { Credential } from '../common/credential';
 import { DscItem } from '../common/dsc-item';
 import { ItemManager } from '../common/item-manager';
 import { FeatureEventArgs } from '../common/feature-event-args';
+import { FirewallRule } from '../common/firewall.rule';
+import { FirewallRuleEventArgs } from '../common/firewall.rule.event.args';
 import { WindowsFeature } from '../common/windows-feature';
 
 export class Collection 
 {
-  private itemNames : string[] = ["Parameters", "Credentials"];
-  private parameters : Parameter[] = [];
-  private itemManager : ItemManager = new ItemManager();
+  private itemNames: string[] = ["Parameters", "Credentials"];
+  private parameters: Parameter[] = [];
+  private itemManager: ItemManager = new ItemManager();
 
   // 
-  public getItemNames() : string[]
+  public getItemNames(): string[]
   {
     return this.itemNames;
   }
@@ -25,15 +27,22 @@ export class Collection
     if (added) this.itemNames.push('Windows Features');
     return added;
   }
+  public addFirewallRule(e: FirewallRuleEventArgs): boolean
+  {
+    var rule = new FirewallRule(e);
+    var added = this.itemManager.addItem(rule);
+    if (added) this.itemNames.push(rule.getName());
+    return added;
+  }
 
   // parameter methods
-  public addParameter(parameter : Parameter) : boolean
+  public addParameter(parameter: Parameter): boolean
   {
     return this.itemManager.addParameter(parameter);
   }
 
   // credential methods
-  public addCredential(credetial : Credential) : boolean
+  public addCredential(credetial: Credential): boolean
   {
     return this.itemManager.addCredential(credetial);
   }
@@ -43,18 +52,28 @@ export class Collection
   }
 
   // serialization methods
-  serialize() : string
+  serialize(): string
   {
     var credentials = this.itemManager.getCredentials();
     var parameters = this.itemManager.getParameters();
     var items = this.itemManager.getItems();
-    var values : string[] = [];
+    var values: string[] = [];
+
+    // add comments from DSC Items
+    for (var item of items)
+    {
+      var comments = item.getComments();
+      if (comments.length > 0)
+      {
+        values.push(comments.join('\r\n'));
+      }
+    }
 
     values.push("PARAM");
     values.push("(");
     values.push("\t[Parameter(Mandatory=$true)][String]$serverName");
 
-    for(var cred of credentials)
+    for (var cred of credentials)
     {
       values.push(`\r\n\t, [Parameter(Mandatory=$true)][String]${cred.getPasswordParameter().serialize()}`);
     }
@@ -62,14 +81,14 @@ export class Collection
     values.push(")\r\n");
     values.push("# dsc parameters");
 
-    for(var param of parameters)
+    for (var param of parameters)
     {
-        values.push(param.serialize() + ";");
+      values.push(param.serialize() + ";");
     }
 
     values.push("\r\n");
     values.push("# dsc credentials");
-    for(var cred of credentials)
+    for (var cred of credentials)
     {
       values.push(cred.serialize());
     }
@@ -78,11 +97,17 @@ export class Collection
     values.push('Configuration DscDeploy');
     values.push('{');
     values.push('Import-DscResource -ModuleName PSDesiredStateConfiguration;');
+    for (var dscItem of items)
+    {
+      var imports = dscItem.getImports();
+      if (imports.length > 0) values.push(imports.join('\r\n');
+    }
     values.push('\r\n');
     values.push('\tNode $serverName');
     values.push('\t{');
 
-    for (var dscItem of items) {
+    for (var dscItem of items)
+    {
       values.push(dscItem.serialize());
     }
     values.push('\t}');

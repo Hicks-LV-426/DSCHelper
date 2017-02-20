@@ -41,6 +41,14 @@ export class WindowsFeature implements DscItem
   {
     return this.dscName;
   }
+  getImports(): string[]
+  {
+    return [];
+  }
+  getComments(): string[]
+  {
+    return [];
+  }
   serialize(): string
   {
     if (this.features === undefined || this.features === null || this.features.length === 0) return "";

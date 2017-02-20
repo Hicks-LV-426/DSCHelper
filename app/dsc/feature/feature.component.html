@@ -17,11 +17,15 @@
         </label>
         <div style="font-size:16px;" class="popup collection-menu {{popup.getVisibilityClass()}}" (mouseout)="popup.handleMouseOut()" (mouseover)="popup.handleMouseOver()">
           <label style="border-radius:3px; border:1px solid #777;padding:4px;width:100%;background-color:#445; color:bisque;">
-            all dependencies will be added automatically
+            {{getFeaturesMessage()}}
           </label>
           <dsc-feature-list [parent]="null" [features]="getFeatures()"></dsc-feature-list>
         </div>
-        <input class="form-control" placeholder="select OS and click button above to choose the features..." [value]="getSelectedFeatures()" readonly="readonly">
+        <ul style="padding-left:10px;">
+          <li *ngFor="let feature of selectedFeatures">
+            <i class="fa fa-check-square-o" aria-hidden="true" style="padding-right:5px;"></i> {{feature}}
+          </li>
+        </ul>
       </div>
       <div class="form-group">
         <label class="control-label">Setup Credential:</label>

@@ -47,10 +47,6 @@ export class FeatureComponent implements OnInit
       this.selectedFeatures.splice(i, 1);
     });
   }
-  getSelectedFeatures(): string
-  {
-    return this.selectedFeatures.join("; ");
-  }
   getFeatures(): Feature[]
   {
     if (this.servers === undefined) return [];
@@ -59,6 +55,10 @@ export class FeatureComponent implements OnInit
     if (s === undefined) return [];
 
     return s.Features;
+  }
+  getFeaturesMessage() : string
+  {
+    return this.selectedVersion.length === 0 ? "select an operating system" : "all dependencies will be added automatically";
   }
 
   // cancel

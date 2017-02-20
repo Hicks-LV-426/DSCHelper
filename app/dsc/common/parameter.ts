@@ -39,6 +39,14 @@ export class Parameter implements DscItem
   {
     return this.dscName;
   }
+  getImports(): string[]
+  {
+    return [];
+  }
+  getComments(): string[]
+  {
+    return [];
+  }
   serialize() : string
   {
     var valuePart : string;

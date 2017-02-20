@@ -34,6 +34,20 @@ button, input, optgroup, select, textarea {
 .pointer {
     cursor: pointer;
 }
+.pointer-default {
+  cursor: default;
+}
+.show {
+  display: block;
+}
+.show-inline
+{
+  display: inline-block;
+}
+
+.hide {
+  display: none;
+}
 .border-full
 {
     border:1px solid #4a4a52;

@@ -38,6 +38,14 @@ export class Credential implements DscItem
   {
     return this.dscName;
   }
+  getImports(): string[]
+  {
+    return [];
+  }
+  getComments(): string[]
+  {
+    return [];
+  }
   serialize() : string
   {
     var secureDeclaration = `$${this.getPasswordSecureName()} = ConvertTo-SecureString $${this.getPasswordParameterName()} -AsPlainText -Force;\r\n`;

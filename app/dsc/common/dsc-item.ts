@@ -5,6 +5,8 @@ export interface DscItem {
   getName() : string;
   getType() : string;
   setDscName(name : string) : void;
-  getDscName() : string;
+  getDscName(): string;
+  getImports(): string[];
+  getComments(): string[];
   serialize() : string;
 }

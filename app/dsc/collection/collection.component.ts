@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FeatureEventArgs } from '../common/feature-event-args';
+import { FirewallRuleEventArgs } from '../common/firewall.rule.event.args';
 import { Collection } from './collection';
 import { Parameter } from '../common/parameter';
 import { Credential } from '../common/credential';
@@ -45,21 +46,10 @@ export class CollectionComponent implements OnInit
   }
   popupItemClicked(action : string)
   {
-    switch (action) 
-    {
-      case "Parameter":
-        this.selectedAction = action.toLowerCase();
-        break;
-      case "Credential":
-        this.selectedAction = action.toLowerCase();
-        break;
-      case "Windows Feature":
-        this.selectedAction = action.toLowerCase();
-        break;
-      default:
-        this.selectedAction = "";
-        break;
-    }
+    var item = this.menuItems.find(v => v === action);
+    if (item === undefined) this.selectedAction = "";
+    else this.selectedAction = action.toLowerCase();
+
     this.popup.hide();
   }
 
@@ -77,25 +67,32 @@ export class CollectionComponent implements OnInit
   // parameter events
   onCancel(event : any)
   {
-    this.selectedAction = "";
+    this.selectedAction = '';
   }
   onParameterSave(parameter : Parameter) : void
   {
     this.collection.addParameter(parameter);
-    this.selectedAction = "";
+    this.selectedAction = '';
   }
   
   // credential events
   onCredentialSave(credential : Credential) : void
   {
     this.collection.addCredential(credential);
-    this.selectedAction = "";
+    this.selectedAction = '';
   }
 
   // windows feature
   onFeatureSave(e: FeatureEventArgs) : void
   {
     this.collection.addWindowsFeature(e);
-    this.selectedAction = "";
+    this.selectedAction = '';
+  }
+
+  // windows firewall
+  onFirewallSave(e: FirewallRuleEventArgs): void
+  {
+    this.collection.addFirewallRule(e);
+    this.selectedAction = '';
   }
 }
