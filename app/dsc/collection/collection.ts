@@ -100,7 +100,7 @@ export class Collection
     for (var dscItem of items)
     {
       var imports = dscItem.getImports();
-      if (imports.length > 0) values.push(imports.join('\r\n');
+      if (imports.length > 0) values.push(imports.join('\r\n'));
     }
     values.push('\r\n');
     values.push('\tNode $serverName');

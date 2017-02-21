@@ -3,9 +3,11 @@
     "",
     "\\app",
     "\\app\\dsc",
-    "\\app\\dsc\\feature",
-    "\\app\\dsc\\firewall"
+    "\\app\\dsc\\collection",
+    "\\app\\dsc\\common",
+    "\\app\\dsc\\firewall",
+    "\\app\\selected-value"
   ],
-  "SelectedNode": "\\app\\dsc\\feature\\feature.component.html",
+  "SelectedNode": "\\app\\dsc\\common\\firewall.rule.event.args.ts",
   "PreviewInSolutionExplorer": false
 }

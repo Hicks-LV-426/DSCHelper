@@ -3,7 +3,10 @@
 </header>
 <div class="app-body border-bottom">
   <div style="overflow: auto;height: 100%;">
-      <div *ngIf="getRegionn() == 'WELCOME'">WELCOME</div>
+      <div *ngIf="getRegionn() == 'WELCOME'" style="position:relative;margin-top:50px;margin-left:50px;">
+        <img src="app/resources/mylogo.svg" title="logo" /><br/>
+        <label style="color:#515152;font-size:36px;font-weight:bold;padding-left:30px;">a gaiabird project</label>
+      </div>
       <dsc-collection *ngIf="getRegionn() == 'DSCC'"></dsc-collection>
       <div *ngIf="getRegionn() == 'HELP'">Help me</div>
       <div *ngIf="getRegionn() == 'ABOUT'">About</div>
@@ -11,11 +14,3 @@
       <div *ngIf="getRegionn() == '404'">404 Page not found</div>
     </div>
 </div>
-<!--
-  <div class="app-content">
-    <div class="column">
-      <app-menu [root]="'root'"></app-menu>
-    </div>
-    
-  </div>
-</div>-->
