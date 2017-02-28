@@ -7,6 +7,9 @@
     <div class="title" style="float:left;padding-left:32px;position:relative;top:-12px;">
       {{title}}
     </div>
+    <div style="padding-right:32px;position:absolute;right:0;top:0px;">
+        <img src="app/resources/mylogo.svg" style="width:88px;" title="a gaiabird project" />
+    </div>
     <div class="popup header-menu {{popup.getVisibilityClass()}}" (mouseout)="popup.handleMouseOut()" (mouseover)="popup.handleMouseOver()">
       <ul>
         <li class="popup-item pointer noselect" *ngFor="let item of menuItems" (click)="menuItemClicked(item)" >{{item}}</li>

@@ -3,9 +3,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Rule } from './rule';
 import { RulesService } from './rules.service';
 import { FirewallRuleEventArgs } from '../common/firewall.rule.event.args';
-const RULE_BUILT_IN: string = 'Built-In';
-const RULE_USER_DEFINED: string = 'User defined';
-
+import { FirewallOptions } from '../common/firewall.options';
+import { Optionset } from '../common/optionset';
 
 @Component({
   selector: 'dsc-firewall',
@@ -14,31 +13,11 @@ const RULE_USER_DEFINED: string = 'User defined';
 })
 export class FirewallComponent implements OnInit
 {
-  componentName: string = 'Firewall Rule';
-  @Output() save: EventEmitter<FirewallRuleEventArgs> = new EventEmitter<FirewallRuleEventArgs>();
-  @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
-
-  ruleTypes: string[] = [RULE_BUILT_IN, RULE_USER_DEFINED];
-  ruleTypeBuiltIn: string = RULE_BUILT_IN;
-  ruleTypeUserDefined: string = RULE_USER_DEFINED;
-  rules: Rule[] = [];
-  versions: string[] = [];
-  selectedVersion: string = '';
-  selectedRuleType: string = '';
-  selectedRule: Rule;
-  set selectedRuleName(value: string)
+  constructor(private _rulesService: RulesService)
   {
-    this.selectedRule = this.rules.find(r => r.Name === value);
+    this.selectedEnsure = 'Present';
+    this.selectedEnabled = 'True';
   }
-  get selectedRuleName(): string
-  {
-    return this.selectedRule === undefined ? '' : this.selectedRule.Name;
-  }
-  selectedEnsure: string = 'Present';
-  selectedEnabled: string = 'True';
-  errorMessage: string = '';
-
-  constructor(private _rulesService: RulesService) { }
   ngOnInit()
   {
     this._rulesService.getServers().then((rules) =>
@@ -46,6 +25,78 @@ export class FirewallComponent implements OnInit
       this.loadRules(rules);
     });
   }
+
+  componentName: string = 'Firewall Rule';
+  ruleTypes: string[] = [FirewallOptions.RULE_PROGRAM, FirewallOptions.RULE_PORT, FirewallOptions.RULE_PREDEFINED];
+  rules: Rule[] = [];
+  versions: string[] = [];
+  options: Optionset = new Optionset();
+  selectedVersion: string = '';
+  errorMessage: string = '';
+
+  /* Output properties */
+  @Output() save: EventEmitter<FirewallRuleEventArgs> = new EventEmitter<FirewallRuleEventArgs>();
+  @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
+
+  /* getters and setters */
+  set selectedRuleType(value: string)
+  {
+    if (value.trim().length > 0)
+    {
+      this.options.setOption(FirewallOptions.RuleType, value);
+    }
+    else
+      this.options.removeOption(FirewallOptions.RuleType);
+  }
+  get selectedRuleType(): string
+  {
+    return this.options.getOptionValue(FirewallOptions.RuleType);
+  }
+  set predefinedRuleName(value: string)
+  {
+    if (value.trim().length > 0)
+    {
+      this.options.setOption(FirewallOptions.PredefinedRuleName, value);
+    }
+    else
+      this.options.removeOption(FirewallOptions.PredefinedRuleName);
+  }
+  get predefinedRuleName(): string
+  {
+    return this.options.getOptionValue(FirewallOptions.PredefinedRuleName);
+  }
+  set selectedEnsure(value: string)
+  {
+    if (value.trim().length > 0)
+    {
+      this.options.setOption(FirewallOptions.Ensure, value);
+    }
+    else
+      this.options.removeOption(FirewallOptions.Ensure);
+  }
+  get selectedEnsure(): string
+  {
+    return this.options.getOptionValue(FirewallOptions.Ensure);
+  }
+  set selectedEnabled(value: string)
+  {
+    if (value.trim().length > 0)
+    {
+      this.options.setOption(FirewallOptions.Enabled, value);
+    }
+    else
+      this.options.removeOption(FirewallOptions.Enabled);
+  }
+  get selectedEnabled(): string
+  {
+    return this.options.getOptionValue(FirewallOptions.Enabled);
+  }
+  get selectedRule(): Rule
+  {
+    return this.rules.find(r => r.Name === this.predefinedRuleName);
+  }
+
+  /* helper methods */
   loadRules(rules: Rule[]) 
   {
     if (rules === undefined || rules.length === 0) return;
@@ -65,19 +116,21 @@ export class FirewallComponent implements OnInit
   {
     return JSON.stringify(object, null, 2);
   }
-  resetSelectedVersion(): void
-  {
-    this.resetSelectedRuleType();
-    this.selectedVersion = '';
-  }
+
+  /* elements display control methods */
   resetSelectedRuleType(): void
   {
-    this.resetSelectedRule();
+    this.resetSelectedVersion();
     this.selectedRuleType = '';
+  }
+  resetSelectedVersion(): void
+  {
+    this.resetSelectedRule();
+    this.selectedVersion = '';
   }
   resetSelectedRule(): void
   {
-    this.selectedRule = undefined;
+    this.predefinedRuleName = '';
   }
   resetSelectedEnsure()
   {
@@ -92,38 +145,45 @@ export class FirewallComponent implements OnInit
   {
     switch (value)
     {
-      case 'enabled':
-        return this.shouldShowEnsure();
+      case 'version':
+        return this.shouldShowVersions();
+      case 'predefined-rules':
+        return this.shouldShowRules();
       case 'ensure':
-        if (this.selectedRuleType === RULE_BUILT_IN)
-        {
-          this.selectedEnsure = 'Present';
-          return false;
-        }
-        else
-        {
-          return this.shouldShowEnsure();
-        }
+        return this.shouldShowEnsure();
       case 'buttons':
         return this.shouldShowButtons();
       default:
         return false;
     }
   }
+  shouldShowVersions(): boolean
+  {
+    return this.selectedRuleType === FirewallOptions.RULE_PREDEFINED;
+  }
+  shouldShowRules(): boolean
+  {
+    return this.shouldShowVersions() && this.selectedVersion.length > 0;
+  }
+  shouldShowEnabled(): boolean
+  {
+    if (this.shouldShowVersions()) return this.predefinedRuleName.length > 0;
 
+    return this.selectedRuleType.length > 0;
+  }
   shouldShowEnsure(): boolean
   {
-    return (this.selectedRuleType === RULE_BUILT_IN && this.selectedRule != undefined)
-      || (this.selectedRuleType.length > 0 && this.selectedRuleType != RULE_BUILT_IN)
+    return this.shouldShowEnabled() && this.selectedRuleType != FirewallOptions.RULE_PREDEFINED;
   }
+
   shouldShowButtons(): boolean
   {
-    return (this.shouldShowEnsure() && this.selectedEnsure.length > 0 && this.selectedEnabled.length > 0);
+    return (this.shouldShowEnabled() && this.selectedEnsure.length > 0 && this.selectedEnabled.length > 0);
   }
 
   onSave(): void
   {
-    if (this.selectedRuleType === RULE_BUILT_IN)
+    if (this.selectedRuleType === FirewallOptions.RULE_PREDEFINED)
     {
       var e = FirewallRuleEventArgs.getBuiltIn(this.selectedRule.Name, this.selectedEnabled === 'True' ? true : false);
       this.save.emit(e);

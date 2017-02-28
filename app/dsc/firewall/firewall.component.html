@@ -3,6 +3,16 @@
     <div class="title-font dsc-form-title">{{componentName}}</div>
     <form class="form-horizontal" name="dsc-parameter">
       <div class="form-group">
+        <label class="control-label">Rule Type:</label>
+        <selected-value [value]="selectedRuleType" (reset)="resetSelectedRuleType()"></selected-value>
+        <div *ngIf="selectedRuleType.length === 0">
+          <select name="rule-type" [(ngModel)]="selectedRuleType" class="form-control">
+            <option value="">select rule type</option>
+            <option *ngFor="let ruleType of ruleTypes" [value]="ruleType">{{ruleType}}</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="shouldShow('version')" class="form-group">
         <label class="control-label">Server Version: </label>
         <selected-value [value]="selectedVersion" (reset)="resetSelectedVersion()"></selected-value>
         <div *ngIf="selectedVersion.length === 0">
@@ -12,27 +22,17 @@
           </select>
         </div>
       </div>
-      <div *ngIf="selectedVersion.length > 0" class="form-group">
-        <label class="control-label">Rule Type:</label>
-        <selected-value [value]="selectedRuleType" (reset)="resetSelectedRuleType()"></selected-value>
-        <div *ngIf="selectedRuleType.length === 0">
-          <select name="rule-type" [(ngModel)]="selectedRuleType" class="form-control">
-            <option value="">select rule type</option>
-            <option *ngFor="let ruleType of ruleTypes">{{ruleType}}</option>
-          </select>
-        </div>
-      </div>
-      <div *ngIf="selectedRuleType.length > 0 && selectedRuleType === ruleTypeBuiltIn" class="form-group">
+      <div *ngIf="shouldShow('predefined-rules')" class="form-group">
         <label class="control-label">Rule:</label>
         <selected-value *ngIf="selectedRule != undefined" [value]="selectedRule.DisplayName" [tooltip]="selectedRule.Description" (reset)="resetSelectedRule()"></selected-value>
         <div *ngIf="selectedRule === undefined">
-          <select name="built-in-rule" [(ngModel)]="selectedRuleName" class="form-control">
+          <select name="built-in-rule" [(ngModel)]="predefinedRuleName" class="form-control">
             <option value="">select a rule</option>
             <option *ngFor="let rule of rules" [value]="rule.Name" [title]="rule.Description">{{rule.DisplayName}}</option>
           </select>
         </div>
       </div>
-      <div class="form-group" *ngIf="shouldShow('enabled')">
+      <div class="form-group" *ngIf="shouldShowEnabled()">
         <label class="control-label">Enabled:</label>
         <selected-value [value]="selectedEnabled === 'True' ? 'Yes' : (selectedEnabled === 'False' ? 'No' : '')" (reset)="resetSelectedEnabled()"></selected-value>
         <div *ngIf="selectedEnabled.length === 0">

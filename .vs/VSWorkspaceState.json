@@ -1,13 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
-    "\\app\\dsc",
-    "\\app\\dsc\\collection",
-    "\\app\\dsc\\common",
-    "\\app\\dsc\\firewall",
-    "\\app\\selected-value"
+    "\\app"
   ],
-  "SelectedNode": "\\app\\dsc\\common\\firewall.rule.event.args.ts",
+  "SelectedNode": "\\app\\app.component.html",
   "PreviewInSolutionExplorer": false
 }
