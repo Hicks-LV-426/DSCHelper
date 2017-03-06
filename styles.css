@@ -158,3 +158,27 @@ button, input, optgroup, select, textarea {
     font-size: 22px;
     color: white;
 }
+
+.check-item {
+  border:1px solid rgba(0, 0, 0, 0.15);
+  background-color:#fff;
+  color: #383838;
+  border-radius:3px;
+  padding: 5px 10px;
+  margin-left: 3px;
+}
+.check-item:hover
+{
+  background:rgba(255, 255, 255, 0.20);
+}
+.check-item-selected {
+  color: rgba(0, 0, 0, 0.80);
+  background-color: #fcf2d6;
+  font-weight:bold;
+}
+
+.form-label
+{
+  width:100px;
+  text-align:right;
+}

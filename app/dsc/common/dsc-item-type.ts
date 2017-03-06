@@ -1,6 +1,7 @@
 export class DscItemType 
 {
-  public static PARAMETER : string = "Parameter";
-  public static CREDENTIAL: string = "Credential";
-  public static WINDOWS_FEATURE: string = "WindowsFeature";
+  public static get PARAMETER() { return 'Parameter'; }
+  public static get CREDENTIAL() { return 'Credential'; }
+  public static get WINDOWS_FEATURE() { return 'WindowsFeature'; }
+  public static get FIREWALL_RULE() { return 'FirewallRule'; }
 }

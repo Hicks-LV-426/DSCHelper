@@ -2,8 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 import { Rule } from './rule';
 import { RulesService } from './rules.service';
-import { FirewallRuleEventArgs } from '../common/firewall.rule.event.args';
-import { FirewallOptions } from '../common/firewall.options';
+import { FirewallOptions } from './firewall.options';
 import { Optionset } from '../common/optionset';
 
 @Component({
@@ -13,84 +12,44 @@ import { Optionset } from '../common/optionset';
 })
 export class FirewallComponent implements OnInit
 {
-  constructor(private _rulesService: RulesService)
-  {
-    this.selectedEnsure = 'Present';
-    this.selectedEnabled = 'True';
-  }
+  constructor(private _rulesService: RulesService) {}
   ngOnInit()
   {
     this._rulesService.getServers().then((rules) =>
     {
       this.loadRules(rules);
     });
+    this.protocol = 'TCP';
   }
 
+  /* firewall properties */
+  ruleType: string = '';
+  enabled: string = 'True';
+  ensure: string = 'Present';
+  profiles: string[] = [];
+  direction: string = 'InBound';
+  program: string = '';
+  protocol: string = 'TCP';
+  port: string = '';
+  version: string = '';
+  predefinedRuleName: string = '';
+  name: string = '';
+  displayName: string = '';
+  description: string = '';
+
+  /* component properties */
   componentName: string = 'Firewall Rule';
   ruleTypes: string[] = [FirewallOptions.RULE_PROGRAM, FirewallOptions.RULE_PORT, FirewallOptions.RULE_PREDEFINED];
   rules: Rule[] = [];
   versions: string[] = [];
-  options: Optionset = new Optionset();
-  selectedVersion: string = '';
   errorMessage: string = '';
+  portRegexp: RegExp = new RegExp("^((\\d{1,})(([,]\\d{1,}){0,})|((-\\d{1,}){0,})){1,}$");
 
   /* Output properties */
-  @Output() save: EventEmitter<FirewallRuleEventArgs> = new EventEmitter<FirewallRuleEventArgs>();
+  @Output() save: EventEmitter<Optionset> = new EventEmitter<Optionset>();
   @Output() cancel: EventEmitter<any> = new EventEmitter<any>();
 
-  /* getters and setters */
-  set selectedRuleType(value: string)
-  {
-    if (value.trim().length > 0)
-    {
-      this.options.setOption(FirewallOptions.RuleType, value);
-    }
-    else
-      this.options.removeOption(FirewallOptions.RuleType);
-  }
-  get selectedRuleType(): string
-  {
-    return this.options.getOptionValue(FirewallOptions.RuleType);
-  }
-  set predefinedRuleName(value: string)
-  {
-    if (value.trim().length > 0)
-    {
-      this.options.setOption(FirewallOptions.PredefinedRuleName, value);
-    }
-    else
-      this.options.removeOption(FirewallOptions.PredefinedRuleName);
-  }
-  get predefinedRuleName(): string
-  {
-    return this.options.getOptionValue(FirewallOptions.PredefinedRuleName);
-  }
-  set selectedEnsure(value: string)
-  {
-    if (value.trim().length > 0)
-    {
-      this.options.setOption(FirewallOptions.Ensure, value);
-    }
-    else
-      this.options.removeOption(FirewallOptions.Ensure);
-  }
-  get selectedEnsure(): string
-  {
-    return this.options.getOptionValue(FirewallOptions.Ensure);
-  }
-  set selectedEnabled(value: string)
-  {
-    if (value.trim().length > 0)
-    {
-      this.options.setOption(FirewallOptions.Enabled, value);
-    }
-    else
-      this.options.removeOption(FirewallOptions.Enabled);
-  }
-  get selectedEnabled(): string
-  {
-    return this.options.getOptionValue(FirewallOptions.Enabled);
-  }
+  /* properties */
   get selectedRule(): Rule
   {
     return this.rules.find(r => r.Name === this.predefinedRuleName);
@@ -117,77 +76,216 @@ export class FirewallComponent implements OnInit
     return JSON.stringify(object, null, 2);
   }
 
-  /* elements display control methods */
-  resetSelectedRuleType(): void
+  /* profile methods */
+  getProfiles(): string[]
   {
-    this.resetSelectedVersion();
-    this.selectedRuleType = '';
+    return FirewallOptions.Profiles;
   }
-  resetSelectedVersion(): void
+  isProfileSelected(value: string): boolean
   {
-    this.resetSelectedRule();
-    this.selectedVersion = '';
+    return this.profiles.indexOf(value) > -1;
   }
-  resetSelectedRule(): void
+  toggleProfile(value: string)
   {
-    this.predefinedRuleName = '';
+    var index = this.profiles.indexOf(value);
+    if (index > -1)
+      this.profiles.splice(index, 1);
+    else
+      this.profiles.push(value);
   }
-  resetSelectedEnsure()
+  getProfilesDscValue() : string
   {
-    this.selectedEnsure = '';
-  }
-  resetSelectedEnabled()
-  {
-    this.selectedEnabled = '';
+    return `('${this.profiles.join("', '")}')`;
   }
 
+  /* elements display control methods */
   shouldShow(value: string): boolean
   {
     switch (value)
     {
+      case 'commonFields':
+        return this.isRuleTypeSelected();
+      case 'non-predefined-fields':
+        return this.isNonPredefined();
+      case 'portFields':
+        return this.ruleType === FirewallOptions.RULE_PORT;
+      case 'programFields':
+        return this.ruleType === FirewallOptions.RULE_PROGRAM;
       case 'version':
         return this.shouldShowVersions();
       case 'predefined-rules':
         return this.shouldShowRules();
-      case 'ensure':
-        return this.shouldShowEnsure();
-      case 'buttons':
-        return this.shouldShowButtons();
+      case 'saveButton':
+        return this.shouldShowSaveButton();
       default:
         return false;
     }
   }
+
+  isRuleTypeSelected(): boolean
+  {
+    return this.ruleType.trim().length > 0;
+  }
+  isNonPredefined(): boolean
+  {
+    return this.isRuleTypeSelected() && this.ruleType != FirewallOptions.RULE_PREDEFINED;
+  }
+
   shouldShowVersions(): boolean
   {
-    return this.selectedRuleType === FirewallOptions.RULE_PREDEFINED;
+    return this.ruleType === FirewallOptions.RULE_PREDEFINED;
   }
   shouldShowRules(): boolean
   {
-    return this.shouldShowVersions() && this.selectedVersion.length > 0;
+    return this.shouldShowVersions() && this.version.length > 0;
   }
-  shouldShowEnabled(): boolean
+  shouldShowSaveButton(): boolean
   {
-    if (this.shouldShowVersions()) return this.predefinedRuleName.length > 0;
+    switch (this.ruleType)
+    {
+      case FirewallOptions.RULE_PORT:
+        return this.isPortRuleValid();
+      case FirewallOptions.RULE_PREDEFINED:
+        return this.isPredefinedRuleValid();
+      case FirewallOptions.RULE_PROGRAM:
+        return this.isProgramRuleValid();
+      default:
+        return false;
+    }
+  }
 
-    return this.selectedRuleType.length > 0;
-  }
-  shouldShowEnsure(): boolean
+  isPredefinedRuleValid(): boolean
   {
-    return this.shouldShowEnabled() && this.selectedRuleType != FirewallOptions.RULE_PREDEFINED;
+    return this.isRuleTypeValid()
+      && this.isEnabledValid()
+      && this.isEnsureValid()
+      && this.isVersionValid()
+      && this.isRuleNameValid();
+  }
+  isProgramRuleValid(): boolean
+  {
+    return this.isRuleTypeValid()
+      && this.isEnabledValid()
+      && this.isEnsureValid()
+      && this.isProfileValid()
+      && this.isDirectionValid()
+      && this.isProgramValid()
+      && this.isNameValid()
+      && this.isDisplayNameValid();
+  }
+  isPortRuleValid(): boolean
+  {
+    return this.isRuleTypeValid()
+      && this.isEnabledValid()
+      && this.isEnsureValid()
+      && this.isProfileValid()
+      && this.isDirectionValid()
+      && this.isProtocolValid()
+      && this.isPortValid()
+      && this.isNameValid()
+      && this.isDisplayNameValid();
+  }
+  /* Validation */
+  isRuleTypeValid(): boolean
+  {
+    return this.ruleType.length > 0;
+  }
+  isEnabledValid(): boolean
+  {
+    return this.enabled.length > 0;
+  }
+  isEnsureValid(): boolean
+  {
+    return this.ensure.length > 0;
+  }
+  isProfileValid(): boolean
+  {
+    return this.profiles.length > 0;
+  }
+  isDirectionValid(): boolean
+  {
+    return this.direction.length > 0;
+  }
+  isProgramValid(): boolean
+  {
+    return this.program.trim().length > 0;
+  }
+  isProtocolValid(): boolean
+  {
+    return this.protocol.length > 0;
+  }
+  isPortValid(): boolean
+  {
+    return this.port.length > 0 && this.portRegexp.test(this.port);
+  }
+  isVersionValid(): boolean
+  {
+    return this.version.length > 0;
+  }
+  isRuleNameValid(): boolean
+  {
+    return this.predefinedRuleName.length > 0;
+  }
+  isNameValid(): boolean
+  {
+    return this.name.trim().length > 0;
+  }
+  isDisplayNameValid(): boolean
+  {
+    return this.displayName.trim().length > 0;
   }
 
-  shouldShowButtons(): boolean
+  getPredefinedRuleOptions(): Optionset
   {
-    return (this.shouldShowEnabled() && this.selectedEnsure.length > 0 && this.selectedEnabled.length > 0);
+    var o = new Optionset();
+    o.setOption(FirewallOptions.RuleType, this.ruleType);
+    o.setOption(FirewallOptions.Enabled, this.enabled);
+    o.setOption(FirewallOptions.Ensure, this.ensure);
+    o.setOption(FirewallOptions.Name, this.predefinedRuleName);
+    return o;
+  }
+  getProgramRuleOptions(): Optionset
+  {
+    var o = new Optionset();
+    o.setOption(FirewallOptions.RuleType, this.ruleType);
+    o.setOption(FirewallOptions.Enabled, this.enabled);
+    o.setOption(FirewallOptions.Ensure, this.ensure);
+    o.setOption(FirewallOptions.Profile, this.getProfilesDscValue(), true);
+    o.setOption(FirewallOptions.Direction, this.direction);
+    o.setOption(FirewallOptions.Program, this.program);
+    o.setOption(FirewallOptions.Name, this.name);
+    o.setOption(FirewallOptions.DisplayName, this.displayName);
+    o.setOption(FirewallOptions.Description, this.description);
+    return o;
+  }
+  getPortRuleOptions(): Optionset
+  {
+    var o = new Optionset();
+    o.setOption(FirewallOptions.RuleType, this.ruleType);
+    o.setOption(FirewallOptions.Enabled, this.enabled);
+    o.setOption(FirewallOptions.Ensure, this.ensure);
+    o.setOption(FirewallOptions.Profile, this.getProfilesDscValue(), true);
+    o.setOption(FirewallOptions.Direction, this.direction);
+    o.setOption(FirewallOptions.Protocol, this.protocol);
+    o.setOption(FirewallOptions.Port, this.port);
+    o.setOption(FirewallOptions.Name, this.name);
+    o.setOption(FirewallOptions.DisplayName, this.displayName);
+    o.setOption(FirewallOptions.Description, this.description);
+    return o;
   }
 
   onSave(): void
   {
-    if (this.selectedRuleType === FirewallOptions.RULE_PREDEFINED)
-    {
-      var e = FirewallRuleEventArgs.getBuiltIn(this.selectedRule.Name, this.selectedEnabled === 'True' ? true : false);
-      this.save.emit(e);
-    }
+    var e: Optionset;
+
+    if (this.ruleType === FirewallOptions.RULE_PREDEFINED)
+      e = this.getPredefinedRuleOptions();
+    else if (this.ruleType === FirewallOptions.RULE_PORT)
+      e = this.getPortRuleOptions();
+    else if (this.ruleType === FirewallOptions.RULE_PROGRAM)
+      e = this.getProgramRuleOptions();
+
+    if (e != undefined) this.save.emit(e);
   }
   onCancel(): void
   {

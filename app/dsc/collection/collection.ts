@@ -3,8 +3,8 @@ import { Credential } from '../common/credential';
 import { DscItem } from '../common/dsc-item';
 import { ItemManager } from '../common/item-manager';
 import { FeatureEventArgs } from '../common/feature-event-args';
-import { FirewallRule } from '../common/firewall.rule';
-import { FirewallRuleEventArgs } from '../common/firewall.rule.event.args';
+import { FirewallRule } from '../firewall/firewall.rule';
+import { Optionset } from '../common/optionset';
 import { WindowsFeature } from '../common/windows-feature';
 
 export class Collection 
@@ -27,7 +27,7 @@ export class Collection
     if (added) this.itemNames.push('Windows Features');
     return added;
   }
-  public addFirewallRule(e: FirewallRuleEventArgs): boolean
+  public addFirewallRule(e: Optionset): boolean
   {
     var rule = new FirewallRule(e);
     var added = this.itemManager.addItem(rule);

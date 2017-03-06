@@ -3,7 +3,11 @@ import { Option } from './option';
 export class Optionset
 {
   private options: Option[] = [];
-  public setOption(name: string, value: string)
+  public getOptions(): Option[]
+  {
+    return this.options;
+  }
+  public setOption(name: string, value: string, asIs: boolean = false)
   {
     var option = this.getOption(name);
     if (option === undefined)
@@ -11,6 +15,7 @@ export class Optionset
       option = new Option();
       option.name = name;
       option.value = value;
+      option.asIs = asIs;
       this.options.push(option);
     }
     else

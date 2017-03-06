@@ -2,104 +2,128 @@
   <div style="padding:5px;">
     <div class="title-font dsc-form-title">{{componentName}}</div>
     <form class="form-horizontal" name="dsc-parameter">
+
+      <!--common fields-->
       <div class="form-group">
-        <label class="control-label">Rule Type:</label>
-        <selected-value [value]="selectedRuleType" (reset)="resetSelectedRuleType()"></selected-value>
-        <div *ngIf="selectedRuleType.length === 0">
-          <select name="rule-type" [(ngModel)]="selectedRuleType" class="form-control">
+        <label class="control-label form-label" [ngClass]="{'error': isRuleTypeValid() === false}">Rule Type:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <select name="rule-type" [(ngModel)]="ruleType" class="form-control">
             <option value="">select rule type</option>
             <option *ngFor="let ruleType of ruleTypes" [value]="ruleType">{{ruleType}}</option>
           </select>
         </div>
       </div>
-      <div *ngIf="shouldShow('version')" class="form-group">
-        <label class="control-label">Server Version: </label>
-        <selected-value [value]="selectedVersion" (reset)="resetSelectedVersion()"></selected-value>
-        <div *ngIf="selectedVersion.length === 0">
-          <select name="server-version" [(ngModel)]="selectedVersion" class="form-control">
-            <option value="">select an operating system</option>
-            <option *ngFor="let version of versions">{{version}}</option>
-          </select>
-        </div>
-      </div>
-      <div *ngIf="shouldShow('predefined-rules')" class="form-group">
-        <label class="control-label">Rule:</label>
-        <selected-value *ngIf="selectedRule != undefined" [value]="selectedRule.DisplayName" [tooltip]="selectedRule.Description" (reset)="resetSelectedRule()"></selected-value>
-        <div *ngIf="selectedRule === undefined">
-          <select name="built-in-rule" [(ngModel)]="predefinedRuleName" class="form-control">
-            <option value="">select a rule</option>
-            <option *ngFor="let rule of rules" [value]="rule.Name" [title]="rule.Description">{{rule.DisplayName}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" *ngIf="shouldShowEnabled()">
-        <label class="control-label">Enabled:</label>
-        <selected-value [value]="selectedEnabled === 'True' ? 'Yes' : (selectedEnabled === 'False' ? 'No' : '')" (reset)="resetSelectedEnabled()"></selected-value>
-        <div *ngIf="selectedEnabled.length === 0">
-          <select name="selected-enabled" [(ngModel)]="selectedEnabled" class="form-control">
+      <div class="form-group" *ngIf="shouldShow('commonFields')">
+        <label class="control-label form-label" [ngClass]="{'error': isEnabledValid() === false}">Enabled:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <select name="selected-enabled" [(ngModel)]="enabled" class="form-control">
             <option value="">select an option</option>
             <option value="True">Yes</option>
             <option value="False">No</option>
           </select>
         </div>
       </div>
-      <div class="form-group" *ngIf="shouldShow('ensure')">
-        <label class="control-label">Ensure:</label>
-        <selected-value [value]="selectedEnsure" (reset)="resetSelectedEnsure()"></selected-value>
-        <div *ngIf="selectedEnsure.length === 0">
-          <select name="selected-ensure" [(ngModel)]="selectedEnsure" class="form-control">
+      <div class="form-group" *ngIf="shouldShow('commonFields')">
+        <label class="control-label form-label" [ngClass]="{'error': isEnsureValid() === false}">Ensure:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <select name="selected-ensure" [(ngModel)]="ensure" class="form-control">
             <option value="">select ensure option</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
           </select>
         </div>
       </div>
+
+      <!--non-predefined-fields-->
+      <div *ngIf="shouldShow('non-predefined-fields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isProfileValid() === false}">Profiles: </label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <div *ngFor="let profile of getProfiles()" class="pointer noselect border-full check-item" [ngClass]="{'check-item-selected': isProfileSelected(profile)}" style="display:inline-block" (click)="toggleProfile(profile)">
+            {{profile}}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="shouldShow('non-predefined-fields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isDirectionValid() === false}">Direction: </label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <select name="direction" [(ngModel)]="direction" class="form-control">
+            <option value="InBound">In bound</option>
+            <option value="OutBound">Out bound</option>
+          </select>
+        </div>
+      </div>
+
+      <!--program fields-->
+      <div *ngIf="shouldShow('programFields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isProgramValid() === false}">Path:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <input type="text" name="program-path" [(ngModel)]="program" class="form-control" />
+        </div>
+      </div>
+
+      <!--Port fields -->
+      <div *ngIf="shouldShow('portFields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isProtocolValid() === false}">Protocol: </label>
+        <div style="display:inline-block;">
+          <select name="protocol" [(ngModel)]="protocol" class="form-control">
+            <option value="TCP">TCP</option>
+            <option value="UDP">UDP</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="shouldShow('portFields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isPortValid() === false}">Ports:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <input type="text" name="port" [(ngModel)]="port" class="form-control" />
+        </div>
+      </div>
+
+      <!--Predefined fields-->
+      <div *ngIf="shouldShow('version')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isVersionValid() === false}">Server Version: </label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <select name="server-version" [(ngModel)]="version" class="form-control">
+            <option value="">select an operating system</option>
+            <option *ngFor="let version of versions">{{version}}</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="shouldShow('predefined-rules')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isRuleNameValid() === false}">Rule:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <select name="built-in-rule" [(ngModel)]="predefinedRuleName" class="form-control">
+            <option value="">select a rule</option>
+            <option *ngFor="let rule of rules" [value]="rule.Name" [title]="rule.Description">{{rule.DisplayName}}</option>
+          </select>
+        </div>
+      </div>
+
+      <!--display name and description-->
+      <div *ngIf="shouldShow('non-predefined-fields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isNameValid() === false}">Name:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <input type="text" name="name" [(ngModel)]="name" class="form-control" />
+        </div>
+      </div>
+      <div *ngIf="shouldShow('non-predefined-fields')" class="form-group">
+        <label class="control-label form-label" [ngClass]="{'error': isDisplayNameValid() === false}">Display Name:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <input type="text" name="display-name" [(ngModel)]="displayName" class="form-control" />
+        </div>
+      </div>
+      <div *ngIf="shouldShow('non-predefined-fields')" class="form-group">
+        <label class="control-label form-label">Description:</label>
+        <div style="display:inline-block;vertical-align:middle;">
+          <textarea type="text" name="description" [(ngModel)]="description" class="form-control"></textarea>
+        </div>
+      </div>
+
       <div class="form-group" style="text-align: right;">
         <div>
-          <label *ngIf="shouldShow('buttons')" class="btn btn-warning pointer" (click)="onSave()">Save</label>
+          <label *ngIf="shouldShow('saveButton')" class="btn btn-warning pointer" (click)="onSave()">Save</label>
           <label class="btn btn-default pointer" style="background-color: rgb(240,240,240);" (click)="onCancel()">Cancel</label>
         </div>
       </div>
-      <!--<div class="form-group">
-        <label style="border-radius:3px; border:1px solid #777;padding-bottom:7px;padding-top:4px;width:100%;" class="pointer noselect block {{popup.getButtonClasses()}}" (click)="popup.toggle()" (mouseout)="popup.handleMouseOut()" (mouseover)="popup.handleMouseOver()">
-          Choose Features <i class="fa fa-chevron-down" aria-hidden="true"></i>
-        </label>
-        <div style="font-size:16px;" class="popup collection-menu {{popup.getVisibilityClass()}}" (mouseout)="popup.handleMouseOut()" (mouseover)="popup.handleMouseOver()">
-          <label style="border-radius:3px; border:1px solid #777;padding:4px;width:100%;background-color:#445; color:bisque;">
-            {{getFeaturesMessage()}}
-          </label>
-          <dsc-feature-list [parent]="null" [features]="getFeatures()"></dsc-feature-list>
-        </div>
-        <ul style="padding-left:10px;">
-          <li *ngFor="let feature of selectedFeatures">
-            <i class="fa fa-check-square-o" aria-hidden="true" style="padding-right:5px;"></i> {{feature}}
-          </li>
-        </ul>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Setup Credential:</label>
-        <div>
-          <select name="selected-credential" [(ngModel)]="selectedCredential" class="form-control">
-            <option value="">(optional)</option>
-            <option [value]="cred.getDscName()" *ngFor="let cred of credentials">{{cred.name}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="control-label">Ensure:</label>
-        <div>
-          <select name="selected-ensure" [(ngModel)]="selectedEnsure" class="form-control">
-            <option value="Present">Present</option>
-            <option value="Absent">Absent</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" style="text-align: right;">
-        <div>
-          <label class="btn btn-warning pointer" (click)="saveClick()">Save</label>
-          <label class="btn btn-default pointer" style="background-color: rgb(240,240,240);" (click)="cancelClick()">Cancel</label>
-        </div>
-      </div>-->
     </form>
     <div *ngIf="errorMessage.length > 0" class="error">{{errorMessage}}</div>
   </div>

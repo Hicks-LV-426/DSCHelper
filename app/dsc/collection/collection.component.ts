@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FeatureEventArgs } from '../common/feature-event-args';
-import { FirewallRuleEventArgs } from '../common/firewall.rule.event.args';
+import { Optionset } from '../common/optionset';
 import { Collection } from './collection';
 import { Parameter } from '../common/parameter';
 import { Credential } from '../common/credential';
@@ -90,7 +90,7 @@ export class CollectionComponent implements OnInit
   }
 
   // windows firewall
-  onFirewallSave(e: FirewallRuleEventArgs): void
+  onFirewallSave(e: Optionset): void
   {
     this.collection.addFirewallRule(e);
     this.selectedAction = '';
