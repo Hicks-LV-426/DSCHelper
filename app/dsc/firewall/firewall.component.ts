@@ -12,7 +12,7 @@ import { Optionset } from '../common/optionset';
 })
 export class FirewallComponent implements OnInit
 {
-  constructor(private _rulesService: RulesService) {}
+  constructor(private _rulesService: RulesService) { }
   ngOnInit()
   {
     this._rulesService.getServers().then((rules) =>
@@ -93,7 +93,7 @@ export class FirewallComponent implements OnInit
     else
       this.profiles.push(value);
   }
-  getProfilesDscValue() : string
+  getProfilesDscValue(): string
   {
     return `('${this.profiles.join("', '")}')`;
   }

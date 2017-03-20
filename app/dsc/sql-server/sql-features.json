@@ -1,0 +1,862 @@
+{
+  "Versions": [
+    {
+      "Name": "SQL Server 2008 R2",
+      "Version": 100
+    },
+    {
+      "Name": "SQL Server 2012",
+      "Version": 110
+    },
+    {
+      "Name": "SQL Server 2014",
+      "Version": 120
+    },
+    {
+      "Name": "SQL Server 2016",
+      "Version": 130
+    }
+  ],
+  "Features": [
+    {
+      "Name": "SQL Server Database Engine",
+      "Code": "SQLENGINE",
+      "Description": "Installs SQL Server Database Engine",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Replication",
+      "Code": "REPLICATION",
+      "Description": "Installs the Replication component",
+      "Compatibility": "*",
+      "DependsOn": "SQLENGINE"
+    },
+    {
+      "Name": "Full Text",
+      "Code": "FULLTEXT",
+      "Description": "Installs the FullText component",
+      "Compatibility": "*",
+      "DependsOn": "SQLENGINE"
+    },
+    {
+      "Name": "Data Quality Server Files",
+      "Code": "DQ",
+      "Description": "Copies the files required for completing the Data Quality Server installation",
+      "Compatibility": ">100",
+      "DependsOn": "SQLENGINE"
+    },
+    {
+      "Name": "Analysis Services",
+      "Code": "AS",
+      "Description": "Installs all Analysis Services components",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Reporting Services",
+      "Code": "RS",
+      "Description": "Installs all Reporting Services components",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Data Quality Client",
+      "Code": "DQC",
+      "Description": "Installs Data Quality Client",
+      "Compatibility": ">100",
+      "DependsOn": null
+    },
+    {
+      "Name": "Integration Services",
+      "Code": "IS",
+      "Description": "Includes the designer, runtime, and utilities that enable Integration Services to move, integrate, and transform data between data stores.",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Master Data Services",
+      "Code": "MDS",
+      "Description": "Installs the Master Data Services Configuration Manager, assemblies, PowerShell snap-in, and folders and files for Web applications and services.",
+      "Compatibility": ">100",
+      "DependsOn": null
+    },
+    {
+      "Name": "Backward compatibility",
+      "Code": "BC",
+      "Description": "Installs backward compatibility components",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Books Online",
+      "Code": "BOL",
+      "Description": "Installs SQL Server Books Online components to view and manage help content",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Connectivity components",
+      "Code": "CONN",
+      "Description": "Installs connectivity components",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Management Tools Basic",
+      "Code": "SSMS",
+      "Description": "Installs SQL Server Management Tools – Basic",
+      "Compatibility": "<130",
+      "DependsOn": null
+    },
+    {
+      "Name": "Management Tools Complete",
+      "Code": "ADV_SSMS",
+      "Description": "Installs SQL Server Management Tools – Complete",
+      "Compatibility": "<130",
+      "DependsOn": "SSMS"
+    },
+    {
+      "Name": "Distributed Replay controller",
+      "Code": "DREPLAY_CTLR",
+      "Description": "Installs Distributed Replay controller",
+      "Compatibility": ">100",
+      "DependsOn": null
+    },
+    {
+      "Name": "Distributed Replay client",
+      "Code": "DREPLAY_CLT",
+      "Description": "Installs Distributed Replay client",
+      "Compatibility": ">100",
+      "DependsOn": null
+    },
+    {
+      "Name": "SDK for MicrosoftSQL Server Native Client",
+      "Code": "SNAC_SDK",
+      "Description": "Installs SDK for MicrosoftSQL Server Native Client",
+      "Compatibility": ">100",
+      "DependsOn": null
+    },
+    {
+      "Name": "Software development kit",
+      "Code": "SDK",
+      "Description": "Installs the software development kit",
+      "Compatibility": "*",
+      "DependsOn": null
+    },
+    {
+      "Name": "Business Intelligence Development Studio",
+      "Code": "BIDS",
+      "Description": "Installs Business Intelligence Development Studio",
+      "Compatibility": "100",
+      "DependsOn": null
+    },
+    {
+      "Name": "SQL Server Data Tools",
+      "Code": "BIDS",
+      "Description": "Installs SQL Server Data Tools (SSDT)",
+      "Compatibility": "110",
+      "DependsOn": null
+    }
+  ],
+  "Parameters": [
+    {
+      "Name": "Source files path",
+      "Description": "(Required) UNC path to the root of the source files for installation",
+      "Code": "SourcePath",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "*"
+      ]
+    },
+    {
+      "Name": "Product key",
+      "Description": "Product key for licensed installations.",
+      "Code": "PID",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "*"
+      ]
+    },
+    {
+      "Name": "Instance name",
+      "Description": "",
+      "Code": "InstanceName",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS",
+        "SQLENGINE",
+        "RS"
+      ]
+    },
+    {
+      "Name": "SQL Server - Collation",
+      "Description": "Collation to use for the Database Engine",
+      "Code": "SQLCollation",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "Latin1_General_BIN",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - Enable TCP/IP",
+      "Description": "Specify 0 to disable or 1 to enable the TCP/IP protocol",
+      "Code": "TCPENABLED",
+      "Values": [
+        {
+          "Name": "Yes",
+          "Value": "1"
+        },
+        {
+          "Name": "No",
+          "Value": "0"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "0",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "TCP/IP Port number",
+      "Description": "",
+      "Code": "PORT",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "1433",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - Administrator accounts",
+      "Description": "Comma separated list of administrator accounts that need to be provisioned",
+      "Code": "SQLSysAdminAccounts",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - Service account",
+      "Description": "Account for SQL Server service: Domain\\User or system account",
+      "Code": "SQLSvcAccount",
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - Service startup type",
+      "Description": "Valid values are Automatic, Manual and Disabled",
+      "Code": "SQLSVCSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Automatic",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "Browser - Service startup type",
+      "Description": "Valid values are Automatic, Manual and Disabled",
+      "Code": "BrowserSvcStartupType",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Automatic",
+      "RelatedFeatures": [
+        "AS",
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "Agent - Service account",
+      "Description": "",
+      "Code": "AgtSvcAccount",
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "Agent - Service startup type",
+      "Description": "Valid values are Automatic, Manual and Disabled",
+      "Code": "AGTSVCSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Automatic",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - Security mode",
+      "Description": "Specifies the security mode for SQL Server. Supported value: SQL. If this parameter is not supplied, then Windows-only authentication mode is supported.",
+      "Code": "SecurityMode",
+      "Values": [
+        {
+          "Name": "SQL",
+          "Value": "SQL"
+        }
+      ],
+      "IsMandatory": false,
+      "DefaultValue": "SQL",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - SA password",
+      "Description": "Specifies the password for the SQL Server SA account. Required when Security mode=SQL",
+      "Code": "SAPwd",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "Root Installation directory",
+      "Description": "",
+      "Code": "InstanceDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "*"
+      ]
+    },
+    {
+      "Name": "Shared components directory",
+      "Description": "",
+      "Code": "InstallSharedDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "*"
+      ]
+    },
+    {
+      "Name": "WOW64 shared components directory",
+      "Description": "",
+      "Code": "InstallSharedWOWDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "*"
+      ]
+    },
+    {
+      "Name": "SQL Server - data directory",
+      "Description": "Specifies the data directory for SQL Server data files",
+      "Code": "InstallSQLDataDir",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - user data directory",
+      "Description": "Specifies the directory for the data files for user databases",
+      "Code": "SQLUserDBDir",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - user log directory",
+      "Description": "Specifies the directory for the log files for user databases",
+      "Code": "SQLUserDBLogDir",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - tempdb data directory",
+      "Description": "Specifies the directory for the data files for tempdb (leave blank for default value); (SQL Server 2016: when specifying more than one directory, separate the directories with a blank space. If multiple directories are specified the tempdb data files will be spread across the directories in a round-robin fashion.",
+      "Code": "SQLTempDBDir",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - tempdb log directory",
+      "Description": "Specifies the directory for tempdb log file (leave blank for default value)",
+      "Code": "SQLTempDBLogDir",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "SQL Server - backup directory",
+      "Description": "Specifies the directory for backup files (leave blank for default value)",
+      "Code": "SQLBackupDir",
+      "Values": [],
+      "IsMandatory": false,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "Full Text - Launcher service account",
+      "Description": "Specifies the account for Full-Text filter launcher service",
+      "Code": "FTSvcAccount",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "FULLTEXT"
+      ]
+    },
+    {
+      "Name": "FILESTREAM feature - Level",
+      "Description": "Level to enable FILESTREAM feature",
+      "Code": "FILESTREAMLEVEL",
+      "Values": [
+        {
+          "Name": "Disabled",
+          "Value": "0"
+        },
+        {
+          "Name": "Enabled for Transact-SQL access",
+          "Value": "1"
+        },
+        {
+          "Name": "Enabled for Transact-SQL and Win32 streaming access",
+          "Value": "2"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "0",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "FILESTREAM feature - Share name",
+      "Description": "Name of Windows share to be created for FILESTREAM File I/O. Leave blank is feature is disabled",
+      "Code": "FILESTREAMSHARENAME",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "SQLENGINE"
+      ]
+    },
+    {
+      "Name": "Integration Services - Service account",
+      "Description": "Account for Integration Services: Domain\\User or system account",
+      "Code": "ISSvcAccount",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "IS"
+      ]
+    },
+    {
+      "Name": "Integration Services - Service startup type",
+      "Description": "Startup type for Integration Services. Valid values are Automatic, Manual and Disabled",
+      "Code": "ISSVCSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Automatic",
+      "RelatedFeatures": [
+        "IS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Service account",
+      "Description": "",
+      "Code": "ASSvcAccount",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Service startup type",
+      "Description": "Valid values are Automatic, Manual and Disabled",
+      "Code": "ASSVCSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Automatic",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Collation",
+      "Description": "For list of valid values refer to SQL Server Documentation",
+      "Code": "ASCollation",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "Latin1_General_BIN",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Data files directory",
+      "Description": "",
+      "Code": "ASDataDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Log files directory",
+      "Description": "",
+      "Code": "ASLogDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Backup files directory",
+      "Description": "",
+      "Code": "ASBackupDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Temporary files directory",
+      "Description": "",
+      "Code": "ASTempDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Configuration files directory",
+      "Description": "",
+      "Code": "ASConfigDir",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - allow MSOLAP run in process",
+      "Description": "Specifies whether or not the MSOLAP provider is allowed to run in process. Valid values are 1 and 0",
+      "Code": "ASPROVIDERMSOLAP",
+      "Values": [
+        {
+          "Name": "No",
+          "Value": "0"
+        },
+        {
+          "Name": "Yes",
+          "Value": "1"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "1",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Administrator accounts",
+      "Description": "Comma separated list of administrator accounts that need to be provisioned",
+      "Code": "ASSysAdminAccounts",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Analysis Services - Server mode",
+      "Description": "Specifies the server mode of the Analysis Services instance. Valid values are MULTIDIMENSIONAL and TABULAR",
+      "Code": "ASSERVERMODE",
+      "Values": [
+        {
+          "Name": "MULTIDIMENSIONAL",
+          "Value": "MULTIDIMENSIONAL"
+        },
+        {
+          "Name": "TABULAR",
+          "Value": "TABULAR"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "MULTIDIMENSIONAL",
+      "RelatedFeatures": [
+        "AS"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Controller - Computer name",
+      "Description": "The computer name that the client communicates with for the Distributed Replay Controller service",
+      "Code": "CLTCTLRNAME",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CLT"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Client - Service account",
+      "Description": "",
+      "Code": "CLTSVCACCOUNT",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CLT"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Client - Service startup type",
+      "Description": "Valid values are Automatic, Manual and Disabled",
+      "Code": "CLTSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Manual",
+      "RelatedFeatures": [
+        "DREPLAY_CLT"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Client - result directory",
+      "Description": "The result directory for the Distributed Replay Client service",
+      "Code": "CLTRESULTDIR",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CLT"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Client - working directory",
+      "Description": "The working directory for the Distributed Replay Client service",
+      "Code": "CLTWORKINGDIR",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CLT"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Controller - service administrators",
+      "Description": "Comma separated list of Windows account(s) used to grant permission to the Distributed Replay Controller service",
+      "Code": "CTLRUSERS",
+      "Values": [],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CTLR"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Controller - service account",
+      "Description": "The account used by the Distributed Replay Controller service",
+      "Code": "CTLRSVCACCOUNT",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CTLR"
+      ]
+    },
+    {
+      "Name": "Distributed Replay Controller - service startup type",
+      "Description": "The startup type for the Distributed Replay Controller service",
+      "Code": "CTLRSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "DREPLAY_CTLR"
+      ]
+    },
+    {
+      "Name": "Reporting Services - Service Account",
+      "Description": "Specifies which account the report server service should execute under.  When omitted or when the value is empty string, the default built-in account for the current operating system. The username part of RSSVCACCOUNT is a maximum of 20 characters long and the domain part of RSSVCACCOUNT is a maximum of 254 characters long",
+      "Code": "RSSvcAccount",
+      "Values": [],
+      "IsMandatory": true,
+      "IsAccount": true,
+      "DefaultValue": "",
+      "RelatedFeatures": [
+        "RS"
+      ]
+    },
+    {
+      "Name": "Reporting Services - Service startup type",
+      "Description": "Valid values are Automatic, Manual and Disabled",
+      "Code": "RSSVCSTARTUPTYPE",
+      "Values": [
+        {
+          "Name": "Automatic",
+          "Value": "Automatic"
+        },
+        {
+          "Name": "Manual",
+          "Value": "Manual"
+        },
+        {
+          "Name": "Disabled",
+          "Value": "Disabled"
+        }
+      ],
+      "IsMandatory": true,
+      "DefaultValue": "Automatic",
+      "RelatedFeatures": [
+        "RS"
+      ]
+    }
+  ]
+}

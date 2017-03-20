@@ -1,8 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app"
+    "\\app",
+    "\\app\\dsc",
+    "\\app\\dsc\\sql-server",
+    "\\app\\selected-value"
   ],
-  "SelectedNode": "\\app\\app.component.html",
+  "SelectedNode": "\\app\\dsc\\sql-server",
   "PreviewInSolutionExplorer": false
 }
