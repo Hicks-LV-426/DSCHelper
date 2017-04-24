@@ -1,0 +1,140 @@
+﻿@import url('https://fonts.googleapis.com/css?family=Dosis');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300');
+/*
+  font-family: 'Indie Flower', cursive;
+  font-family: 'Gruppo', cursive;
+  font-family: 'Open Sans Condensed', sans-serif;
+*/
+body {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: 300;
+  background: #1e1e1e;
+  color: #adadad;
+}
+
+button, input, optgroup, select, textarea {
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-weight: 300;
+}
+
+.block {
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.pointer-default {
+  cursor: default;
+}
+
+.show {
+  display: block;
+}
+
+.show-inline {
+  display: inline-block;
+}
+
+.hide {
+  display: none;
+}
+
+.border-full {
+  border: 1px solid #4a4a52;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #4a4a52;
+}
+
+.border-right {
+  border-right: 1px solid #4a4a52;
+}
+
+.border-left {
+  border-left: 1px solid #4a4a52;
+}
+
+.horizontal-center {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0);
+}
+
+.title {
+  color: #adadad;
+  font-size: 200%;
+  font-family: 'Dosis', sans-serif;
+  font-weight: 300;
+}
+
+.title-font {
+  font-family: 'Dosis', sans-serif;
+}
+
+.column {
+  float: left;
+  height: 100%;
+}
+
+.error {
+  color: #ee0000;
+  padding: 4px;
+  border-radius: 3px;
+  border: 1px solid #4a4a52;
+  background: #aab;
+  font-size: 18px;
+}
+
+/**/
+.menu-font {
+  font-size: 20px;
+}
+.dsc-menu li {
+  padding: 10px;
+}
+
+.dsc-menu li:hover {
+  background: #3f3f46;
+}
+
+/**/
+.app-header {
+  position: fixed;
+  border-bottom: 1px solid #3d3d3d;
+  background-color: rgba(30, 30, 30, 0.75);
+  width: 100%;
+  box-shadow: 0 0 16px 0 rgba(255,255,255,0.2);
+  z-index: 9;
+}
+
+.app-header-body {
+  padding: 15px;
+  font-size: 20px;
+}
+
+.app-body {
+  position: relative;
+  top: 75px;
+  background: #252526;
+  padding-left: 15px;
+  padding-top: 5px;
+  clear: both;
+  min-height: 600px;
+}

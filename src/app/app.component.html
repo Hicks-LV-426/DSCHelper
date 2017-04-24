@@ -1,0 +1,20 @@
+﻿<header class="app-header">
+  <div class="app-header-body">
+    <div class="title" style="float:left;padding-left:32px;position:relative;top:-12px;">
+      DSC Genome
+    </div>
+    <div style="padding-right:32px;position:absolute;right:0;top:0px;">
+      <img src="app/resources/mylogo.svg" style="width:88px;" title="a gaiabird project" />
+    </div>
+  </div>
+</header>
+<div class="app-body border-bottom">
+  <div class="block menu-font dsc-menu border-right" style="clear: left;">
+    <ul>
+      <li *ngFor="let item of _core.items" class="noselect pointer" routerLink="{{item.route}}">{{item.name}}</li>
+    </ul>
+  </div>
+  <div class="block">
+    <router-outlet></router-outlet>
+  </div>
+</div>
