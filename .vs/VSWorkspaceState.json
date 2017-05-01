@@ -1,11 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\app",
-    "\\app\\dsc",
-    "\\app\\dsc\\sql-server",
-    "\\app\\selected-value"
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\classes",
+    "\\src\\app\\components",
+    "\\src\\app\\services"
   ],
-  "SelectedNode": "\\app\\dsc\\sql-server",
+  "SelectedNode": "\\src\\app\\classes\\sql.state.ts",
   "PreviewInSolutionExplorer": false
 }

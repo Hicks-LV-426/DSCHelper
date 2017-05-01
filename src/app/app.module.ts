@@ -7,6 +7,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AppComponent }  from './app.component';
 
 import { HelperCore } from './core/core';
+import { SqlService } from './services/sql.service';
 import { InjectorDirective } from './core/injector';
 
 import { CoreViewerComponent } from './components/core.viewer';
@@ -28,7 +29,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(appRoutes), BrowserModule, FormsModule, HttpModule],
-  providers: [HelperCore],
+  providers: [HelperCore, SqlService],
   declarations: [AppComponent, InjectorDirective, PageNotFoundComponent, CoreViewerComponent, TestComponent, SqlComponent],
   bootstrap:    [ AppComponent ]
 })

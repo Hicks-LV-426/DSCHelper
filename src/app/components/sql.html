@@ -1,1 +1,29 @@
-﻿<h1>SQL Server DSC Component</h1>
+﻿<div style="margin:15px;">
+  <h1>SQL Server DSC Component</h1>
+  <div *ngIf="group" class="form-group">
+    <label class="control-label form-label" style="font-size:120%;vertical-align:middle;" >SQL Server Version:</label>
+    <div style="display:inline-block;vertical-align:middle;">
+      <select name="sql-version" [(ngModel)]="state.version" class="form-control">
+        <option value="">select version</option>
+        <option *ngFor="let ver of group.Versions" [value]="ver.Version">{{ver.Name}}</option>
+      </select>
+    </div>
+  </div>
+  <ul *ngIf="group">
+    <li *ngFor="let feat of getFeatures()" [title]="feat.Code">
+      <div class="border-full" style="margin-top:-1px;">
+        <div style="display:inline-block;padding:5px;width:270px;" class="border-right">
+          <div class="pointer noselect" [ngClass]="{'highlight': state.hasFeature(feat.Code) === true}" (click)="toggleFeature(feat.Code)">
+            <input type="checkbox" class="pointer" readonly="readonly" [checked]="state.hasFeature(feat.Code) === true" />
+            {{feat.Name}}
+          </div>
+        </div>
+        <div *ngIf="state.hasFeature(feat.Code) === true" style="display:inline-block;padding:5px;margin-left:-4px; vertical-align:middle;" class="border-left">
+          <ul>
+            <li *ngFor="let par of getParameters(feat.Code)">{{par.Name}}</li>
+          </ul>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
